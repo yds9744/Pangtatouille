@@ -51,6 +51,7 @@ export default function Component() {
         index === id ? !checked : checked
       )
     );
+    // console.log(checkedList)
   }
 
   return (
