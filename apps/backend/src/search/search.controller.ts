@@ -4,10 +4,7 @@ import { Video } from 'types/video';
 
 @Controller('search')
 export class SearchController {
-  constructor(
-    private readonly searchService: SearchService,
-    private readonly openaiService: OpenAIService,
-  ) {}
+  constructor(private readonly searchService: SearchService) {}
 
   @Get('youtube')
   searchYoutube(@Query('query') query: string): Promise<Video[]> {
