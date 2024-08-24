@@ -5,7 +5,7 @@ import CartBuyButton from "../../components/CartBuyButton";
 import Details from "../../components/Details";
 import Prices from "../../components/Prices";
 import ReviewList from "../../components/ReviewList";
-import ShareButton from '../../components/ShareButton'
+import ShareButton from "../../components/ShareButton";
 import ProductList from "@/app/cart/components/ProductList";
 import { ProductPackage } from "@/types/product-package";
 
@@ -17,6 +17,7 @@ export default async function RecipePage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const recipeId = params.id;
+  if (isNaN(parseInt(recipeId))) return null; // WHY GET /details/recipe/placeholder.svg
   const productPackage: ProductPackage = await fetch(
     `${process.env.SERVER_BASE_URL}/product-package/${recipeId}`
   ).then((res) => res.json());
