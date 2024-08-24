@@ -120,8 +120,8 @@ export class SearchController {
           }
           ingredients[index] = {
             name: ingre,
-            amount: amount,
-            unit: ea,
+            amount,
+            unit,
           };
         });
 
@@ -131,7 +131,7 @@ export class SearchController {
         recipeList.each((index, list) => {
           const recipe = $2(list).children('.media-body').text().trim();
           steps[index] = {
-            step: index,
+            step: index + 1,
             description: recipe,
           };
         });
@@ -140,7 +140,8 @@ export class SearchController {
           ingredients,
         );
         const data = {
-          url: img_url,
+          url,
+          imageUrl: img_url,
           title: title,
           ingredients: ingredients,
           recipe: steps,
@@ -149,6 +150,6 @@ export class SearchController {
         return data;
       }),
     );
-    console.log(finals);
+    return finals;
   }
 }
