@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
-import ProductList from './components/ProductList';
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import ProductList from "./components/ProductList";
 import { Product } from "@/types/product";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const defaultProduct: Product = {
   id: 0,
@@ -20,10 +20,11 @@ const defaultProduct: Product = {
   arrivalInfo: "내일(토) 새벽 도착 보장",
   ratingTotalCnt: 3058,
   rewardCash: 77,
-  imageUrl: "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
+  imageUrl:
+    "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
 };
 
-export default function CartPage() {
+function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
   const [quantityList, setQuantityList] = useState<number[]>([]);
   const [checkedList, setCheckedList] = useState<boolean[]>([]);
@@ -32,18 +33,26 @@ export default function CartPage() {
 
   useEffect(() => {
     // Extract and log query parameters
-    const productsParam = searchParams.get('products');
-    const quantitiesParam = searchParams.get('quantities');
+    const productsParam = searchParams.get("products");
+    const quantitiesParam = searchParams.get("quantities");
 
     // Optionally parse and log parsed data
     try {
-      const parsedProducts: Product[] = productsParam ? JSON.parse(productsParam) : [];
-      const parsedQuantities: number[] = quantitiesParam ? JSON.parse(quantitiesParam) : [];
-      
+      const parsedProducts: Product[] = productsParam
+        ? JSON.parse(productsParam)
+        : [];
+      const parsedQuantities: number[] = quantitiesParam
+        ? JSON.parse(quantitiesParam)
+        : [];
+
       // Set products and quantities
       if (parsedProducts.length) {
         setProducts(parsedProducts);
-        setQuantityList(parsedQuantities.length ? parsedQuantities : Array(parsedProducts.length).fill(1));
+        setQuantityList(
+          parsedQuantities.length
+            ? parsedQuantities
+            : Array(parsedProducts.length).fill(1)
+        );
         setCheckedList(Array(parsedProducts.length).fill(true));
       } else {
         setProducts(Array(20).fill(defaultProduct));
@@ -51,7 +60,7 @@ export default function CartPage() {
         setCheckedList(Array(20).fill(true));
       }
     } catch (error) {
-      console.error('Error parsing query parameters:', error);
+      console.error("Error parsing query parameters:", error);
       // Fallback to default products if there's an error
       setProducts(Array(20).fill(defaultProduct));
       setQuantityList(Array(20).fill(1));
@@ -61,13 +70,15 @@ export default function CartPage() {
 
   useEffect(() => {
     const newTotal = products.reduce((sum, product, index) => {
-      return sum + (checkedList[index] ? product.price * quantityList[index] : 0);
+      return (
+        sum + (checkedList[index] ? product.price * quantityList[index] : 0)
+      );
     }, 0);
     setTotal(newTotal);
   }, [products, quantityList, checkedList]);
 
   const updateQuantityList = (id: number, addNum: number) => {
-    setQuantityList(prevQuantity =>
+    setQuantityList((prevQuantity) =>
       prevQuantity.map((quantity, index) =>
         index === id ? Math.max(1, quantity + addNum) : quantity
       )
@@ -75,7 +86,7 @@ export default function CartPage() {
   };
 
   const updateCheckedList = (id: number) => {
-    setCheckedList(prevCheckedList =>
+    setCheckedList((prevCheckedList) =>
       prevCheckedList.map((checked, index) =>
         index === id ? !checked : checked
       )
@@ -86,10 +97,16 @@ export default function CartPage() {
     <div className="flex flex-col items-center container mx-auto p-4 bg-gray-100">
       <div>
         <a href="/">
-          <Image src="https://image7.coupangcdn.com/image/coupang/common/logo_coupang_w350.png" alt="Coupang Logo" width={150} height={40} className="my-5"/>
+          <Image
+            src="https://image7.coupangcdn.com/image/coupang/common/logo_coupang_w350.png"
+            alt="Coupang Logo"
+            width={150}
+            height={40}
+            className="my-5"
+          />
         </a>
         <div className="flex-1 bg-white shadow-xl p-10">
-          <CartHeader/>
+          <CartHeader />
 
           {/* 로켓 프레시 상품 */}
           <div className="flex flex-col lg:flex-row gap-8">
@@ -99,7 +116,12 @@ export default function CartPage() {
                 <p className="text-sm text-gray-500 mb-4">
                   장바구니에는 최근에 담은 70개의 상품만 표시됩니다.
                 </p>
-                <ProductList products={products} quantityList={quantityList} updateQuantityList={updateQuantityList} updateCheckedList={updateCheckedList}/>
+                <ProductList
+                  products={products}
+                  quantityList={quantityList}
+                  updateQuantityList={updateQuantityList}
+                  updateCheckedList={updateCheckedList}
+                />
               </div>
             </div>
             <TotalPrice total={total} />
@@ -134,32 +156,41 @@ function CartHeader() {
 function TotalPrice({ total }: { total: number }) {
   return (
     <div className="w-[300px]">
-    <div className="sticky top-4">
-      <div className="bg-white p-6 rounded-sm border">
-        <h2 className="text-xl font-bold mb-4">주문 예상 금액</h2>
-        <div className="space-y-2">
-          <div className="flex justify-between">
-            <span>총 상품 가격</span>
-            <span>{total.toLocaleString()}원</span>
+      <div className="sticky top-4">
+        <div className="bg-white p-6 rounded-sm border">
+          <h2 className="text-xl font-bold mb-4">주문 예상 금액</h2>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span>총 상품 가격</span>
+              <span>{total.toLocaleString()}원</span>
+            </div>
+            <div className="flex justify-between">
+              <span>총 할인</span>
+              <span className="text-red-500">-0원</span>
+            </div>
+            <div className="flex justify-between">
+              <span>총 배송비</span>
+              <span>+0원</span>
+            </div>
+            <div className="flex justify-between font-bold text-xl mt-4">
+              <span>총 주문 금액</span>
+              <span>{total.toLocaleString()}원</span>
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span>총 할인</span>
-            <span className="text-red-500">-0원</span>
-          </div>
-          <div className="flex justify-between">
-            <span>총 배송비</span>
-            <span>+0원</span>
-          </div>
-          <div className="flex justify-between font-bold text-xl mt-4">
-            <span>총 주문 금액</span>
-            <span>{total.toLocaleString()}원</span>
-          </div>
+          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg mt-6 font-bold">
+            구매하기
+          </button>
         </div>
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg mt-6 font-bold">
-          구매하기
-        </button>
       </div>
     </div>
-  </div>
+  );
+}
+
+export default function CartPage() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <Cart />
+    </Suspense>
   );
 }
