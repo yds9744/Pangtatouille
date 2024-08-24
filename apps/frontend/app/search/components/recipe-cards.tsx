@@ -9,8 +9,8 @@ export async function RecipeCards({ keyword }: { keyword: string }) {
 
   return (
     <div>
-      {fullRecipes.map((recipe, index) => (
-        <RecipeCard key={index} fullRecipe={recipe} />
+      {fullRecipes.map((recipe) => (
+        <RecipeCard key={recipe.id} fullRecipe={recipe} />
       ))}
     </div>
   );

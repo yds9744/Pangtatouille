@@ -19,7 +19,7 @@ export function RecipeCard({ fullRecipe }: { fullRecipe: FullRecipe }) {
   const averageDiscountRate = totalDiscountRate / products.length;
 
   return (
-    <a href={`/recipe/${fullRecipe.video.videoId}`}>
+    <a href={`/recipes/${fullRecipe.id}`}>
       <div className={cn("m-2 bg-card text-card-foreground")}>
         <CardContent className="p-0 w-[220px] h-[430px]">
           <div className="overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">

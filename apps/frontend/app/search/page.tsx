@@ -1,8 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import { ProductCard } from "@/app/search/components/product-card";
-import { RecipeCard } from "@/app/search/components/recipe-card";
-import { FullRecipe } from "@/types/full-recipe";
 import { Product } from "@/types/product";
 import { Suspense } from "react";
 import { RecipeCards } from "@/app/search/components/recipe-cards";
