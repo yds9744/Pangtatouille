@@ -9,39 +9,39 @@ export class Product extends BaseEntity {
   name: string;
 
   @Column('int')
-  discountRate: number;
+  discountRate: number | null;
 
   @Column('int')
-  basePrice: number;
+  basePrice: number | null;
 
-  @Column('int')
+  @Column('int', { nullable: false })
   price: number;
 
-  @Column('int')
+  @Column('int', { nullable: false })
   amount: number;
 
-  @Column('varchar', { length: 10 })
+  @Column('varchar', { length: 10, nullable: false })
   amountUnit: string;
 
-  @Column('int')
+  @Column('int', { nullable: false })
   quantity: number;
 
-  @Column('varchar', { length: 10 })
+  @Column('varchar', { length: 10, nullable: false })
   quantityUnit: string;
 
   @Column('varchar', { length: 50 })
-  unitPriceText: string;
+  unitPriceText: string | null;
 
   @Column('varchar', { length: 100 })
-  arrivalInfo: string;
+  arrivalInfo: string | null;
 
   @Column('int')
-  ratingTotalCnt: number;
+  ratingTotalCnt: number | null;
 
   @Column('int')
-  rewardCash: number;
+  rewardCash: number | null;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   imageUrl: string;
 
   static async searchBy({ name }: { name: string }) {
