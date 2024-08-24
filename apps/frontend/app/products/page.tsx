@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import {
   HeartIcon,
@@ -27,7 +26,7 @@ export default function Component() {
             {/* Product Image */}
             <div className="w-full lg:w-1/2">
               <img
-                src="/placeholder.svg?height=500&width=500"
+                src="placeholder.svg"
                 alt="Biore UV Sunscreen"
                 className="w-full h-auto rounded-lg shadow-lg"
               />
@@ -145,9 +144,7 @@ export default function Component() {
                 {[...Array(10)].map((_, i) => (
                   <img
                     key={i}
-                    src={`/placeholder.svg?height=100&width=100&text=Review ${
-                      i + 1
-                    }`}
+                    src={"placeholder.svg"}
                     alt={`Review ${i + 1}`}
                     className="w-24 h-24 object-cover rounded-md"
                   />
@@ -251,9 +248,7 @@ export default function Component() {
                   {[...Array(5)].map((_, i) => (
                     <img
                       key={i}
-                      src={`/placeholder.svg?height=80&width=80&text=Review Image ${
-                        i + 1
-                      }`}
+                      src={"placeholder.svg"}
                       alt={`Review Image ${i + 1}`}
                       className="w-20 h-20 object-cover rounded-md"
                     />
