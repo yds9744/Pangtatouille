@@ -1,0 +1,5 @@
+### Scaffold
+
+```
+$ nest g <name>
+```

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: pangtatouille-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    volumes:
+      - ~/app/postgres:/var/lib/postgresql/data
+
+  api:
+    image: clueeee/pangtatouille:latest
+    container_name: pangtatouille-api
+    ports:
+      - '${API_PORT}:8000'
+    networks:
+      - pangtatouille-network
+    depends_on:
+      - db
+
+networks:
+  pangtatouille-network:
+    driver: bridge
