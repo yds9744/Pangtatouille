@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import { Ingredient } from 'types/ingredient';
 import { Recipe } from 'types/recipe';
-import { FullRecipe } from 'types/full-recipe';
+import { ProductPackage } from 'types/product-package';
 
 @Injectable()
 export class OpenAIService {
@@ -20,7 +20,7 @@ export class OpenAIService {
 
   async extractRecipeAndIngredients(
     text: string,
-  ): Promise<Pick<FullRecipe, 'ingredients' | 'recipe'>> {
+  ): Promise<Pick<ProductPackage, 'ingredients' | 'recipe'>> {
     const FullRecipeObj = z.object({
       ingredients: z.array(
         z.object({
@@ -58,7 +58,7 @@ export class OpenAIService {
     });
 
     const recipe = completion.choices[0].message.parsed as Pick<
-      FullRecipe,
+      ProductPackage,
       'ingredients' | 'recipe'
     >;
     return recipe;

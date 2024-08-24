@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OpenAIService } from 'libs/openai/openai.service';
-import { FullRecipe } from 'types/full-recipe';
+import { ProductPackage } from 'types/product-package';
 import { Ingredient } from 'types/ingredient';
 import { Recipe } from 'types/recipe';
 
@@ -8,9 +8,9 @@ import { Recipe } from 'types/recipe';
 export class AppService {
   constructor(private readonly openAIService: OpenAIService) {}
 
-  async getFullRecipe(
+  async getProductPackage(
     description: string,
-  ): Promise<Pick<FullRecipe, 'ingredients' | 'recipe'>> {
+  ): Promise<Pick<ProductPackage, 'ingredients' | 'recipe'>> {
     return await this.openAIService.extractRecipeAndIngredients(description);
   }
 

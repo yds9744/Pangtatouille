@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Star, Heart, Share } from "lucide-react";
 import { formatNumber } from "@/utils/formatNumber";
-import { FullRecipe } from "@/types/full-recipe";
+import { ProductPackage } from "@/types/product-package";
 
 export default async function RecipePage({
   params,
@@ -14,12 +14,12 @@ export default async function RecipePage({
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const fullRecipes: FullRecipe[] = await fetch(
-    `http://localhost:8000/search/full-recipe/youtube/mock?query=${"hi"}`
-  ).then((res) => res.json()); // TODO: replace this with http://localhost:8000/full-recipe/${id}
+  const productPackages: ProductPackage[] = await fetch(
+    `http://localhost:8000/search/product-package/youtube/mock?query=${"hi"}`
+  ).then((res) => res.json()); // TODO: replace this with http://localhost:8000/product-package/${id}
 
   const recipeId = params.id;
-  const recipe = fullRecipes[0];
+  const recipe = productPackages[0];
   const products = recipe.products;
   const totalPrice = products.reduce((acc, product) => acc + product.price, 0);
   const totalDiscountRate = products.reduce(

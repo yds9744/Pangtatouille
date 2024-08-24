@@ -1,7 +1,7 @@
 import { mockSearchVideoResponse } from 'src/search/mock.response';
-import { FullRecipe } from 'types/full-recipe';
+import { ProductPackage } from 'types/product-package';
 
-export const FULL_RECIPES_MOCK: FullRecipe[] = [
+export const PRODUCT_PACKAGE_MOCK: ProductPackage[] = [
   {
     id: 1,
     ingredients: [

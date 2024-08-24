@@ -3,7 +3,7 @@ import { Recipe } from './recipe';
 import { Product } from './product';
 import { Video } from './video';
 
-export type FullRecipe = {
+export type ProductPackage = {
   id: number;
   ingredients: Ingredient[];
   recipe: Recipe;

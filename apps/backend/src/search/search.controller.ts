@@ -3,8 +3,8 @@ import { SearchService } from './search.service';
 import { Video } from 'types/video';
 import { OpenAIService } from 'libs/openai/openai.service';
 import { mockSearchVideoResponse } from 'src/search/mock.response';
-import { FullRecipe } from 'types/full-recipe';
-import { FULL_RECIPES_MOCK } from 'libs/const/recipe.mock';
+import { ProductPackage } from 'types/product-package';
+import { PRODUCT_PACKAGE_MOCK } from 'libs/const/product-package.mock';
 
 @Controller('search')
 export class SearchController {
@@ -13,19 +13,19 @@ export class SearchController {
     private readonly openaiService: OpenAIService,
   ) {}
 
-  @Get('full-recipe/youtube/mock')
-  async searchFullRecipeOnYoutubeMock(
+  @Get('product-package/youtube/mock')
+  async searchProductPackageOnYoutubeMock(
     @Query('query') query: string,
-  ): Promise<FullRecipe[]> {
+  ): Promise<ProductPackage[]> {
     // mimic 3 seconds delay
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    return FULL_RECIPES_MOCK;
+    return PRODUCT_PACKAGE_MOCK;
   }
 
-  @Get('full-recipe/youtube')
-  async searchFullRecipeOnYoutube(
+  @Get('product-package/youtube')
+  async searchProductPackageOnYoutube(
     @Query('query') query: string,
-  ): Promise<FullRecipe[]> {
+  ): Promise<ProductPackage[]> {
     const videos = await this.searchService.searchRecipeVideoOnYoutube(query);
     const recipeVideos = (
       await Promise.all(
@@ -37,7 +37,7 @@ export class SearchController {
     ).filter((video) => video.isRecipe);
 
     if (recipeVideos.length > 0) {
-      const fullRecipes = await Promise.all(
+      const productPackages = await Promise.all(
         recipeVideos.map(async (video) => {
           const recipeAndIngredients =
             await this.openaiService.extractRecipeAndIngredients(
@@ -46,16 +46,16 @@ export class SearchController {
           const products = await this.searchService.searchByIngredients(
             recipeAndIngredients.ingredients,
           );
-          const fullRecipe: FullRecipe = {
+          const productPackage: ProductPackage = {
             id: 1,
             video,
             products,
             ...recipeAndIngredients,
           };
-          return fullRecipe;
+          return productPackage;
         }),
       );
-      return fullRecipes;
+      return productPackages;
     }
 
     return [];
@@ -84,7 +84,7 @@ export class SearchController {
   @Get('ingredient')
   async searchByIngredient(@Query('keyword') keyword: string) {
     return await this.searchService.searchByIngredients(
-      FULL_RECIPES_MOCK[0].ingredients,
+      PRODUCT_PACKAGE_MOCK[0].ingredients,
     );
   }
 

@@ -2,11 +2,15 @@ import Image from "next/image";
 import { CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FullRecipe } from "@/types/full-recipe";
+import { ProductPackage } from "@/types/product-package";
 import { formatNumber } from "@/utils/formatNumber";
 
-export function RecipeCard({ fullRecipe }: { fullRecipe: FullRecipe }) {
-  const products = fullRecipe.products;
+export function RecipeCard({
+  productPackage,
+}: {
+  productPackage: ProductPackage;
+}) {
+  const products = productPackage.products;
   const totalPrice = products.reduce((acc, product) => acc + product.price, 0);
   const totalDiscountRate = products.reduce(
     (acc, product) => acc + (product.discountRate ?? 0),
@@ -19,12 +23,12 @@ export function RecipeCard({ fullRecipe }: { fullRecipe: FullRecipe }) {
   const averageDiscountRate = totalDiscountRate / products.length;
 
   return (
-    <a href={`/recipes/${fullRecipe.id}`}>
+    <a href={`/recipes/${productPackage.id}`}>
       <div className={cn("m-2 bg-card text-card-foreground")}>
         <CardContent className="p-0 w-[220px] h-[430px]">
           <div className="overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
             <Image
-              src={fullRecipe.video.snippet.thumbnails.high.url}
+              src={productPackage.video.snippet.thumbnails.high.url}
               alt=""
               width={230}
               height={230}
@@ -32,11 +36,11 @@ export function RecipeCard({ fullRecipe }: { fullRecipe: FullRecipe }) {
             />
           </div>
           <span className="text-sm mt-2">
-            {fullRecipe.video.title.slice(0, 30)}
+            {productPackage.video.title.slice(0, 30)}
           </span>
           <div className="h-fit">
             <span className={cn("text-xs text-gray-500 overflow-hidden")}>
-              {fullRecipe.video.description.slice(0, 50) + "..."}
+              {productPackage.video.description.slice(0, 50) + "..."}
             </span>
           </div>
           <div className="my-2">

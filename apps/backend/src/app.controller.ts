@@ -3,20 +3,20 @@ import { AppService } from './app.service';
 import { Ingredient } from 'types/ingredient';
 import { GetIngredientsDto } from 'src/app.dto';
 import { Recipe } from 'types/recipe';
-import { FullRecipe } from 'types/full-recipe';
+import { ProductPackage } from 'types/product-package';
 
 @Controller()
 export class AppController {
   protected readonly logger = new Logger(this.constructor.name);
   constructor(private readonly appService: AppService) {}
 
-  @Post('full-recipe')
-  async getFullRecipe(
+  @Post('product-package')
+  async getProductPackage(
     @Body() body: GetIngredientsDto,
-  ): Promise<Pick<FullRecipe, 'ingredients' | 'recipe'>> {
+  ): Promise<Pick<ProductPackage, 'ingredients' | 'recipe'>> {
     this.logger.log('Getting full recipe...');
     body.description = GetIngredientsDto.mockKo().description;
-    return await this.appService.getFullRecipe(body.description);
+    return await this.appService.getProductPackage(body.description);
   }
 
   @Post('recipe')

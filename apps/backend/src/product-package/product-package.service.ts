@@ -1,6 +1,5 @@
 import { ProductPackage } from '@lib/database/product-package/product-package.entity';
 import { Injectable } from '@nestjs/common';
-import { FullRecipe } from 'types/full-recipe';
 
 @Injectable()
 export class ProductPackageService {
@@ -9,7 +8,7 @@ export class ProductPackageService {
     return productPackage;
   }
 
-  async createOne(productPackage: FullRecipe) {
+  async createOne(productPackage: ProductPackage) {
     const newProductPackage = new ProductPackage();
     newProductPackage.ingredients = productPackage.ingredients;
     newProductPackage.recipe = productPackage.recipe;
