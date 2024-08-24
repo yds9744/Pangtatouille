@@ -32,6 +32,7 @@ const nextConfig = {
       "thumbnail13.coupangcdn.com",
       "thumbnail14.coupangcdn.com",
       "i.ytimg.com",
+      "recipe1.ezmember.co.kr",
     ],
   },
 };
