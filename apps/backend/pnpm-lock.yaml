@@ -104,6 +104,9 @@ importers:
       winston:
         specifier: ^3.14.2
         version: 3.14.2
+      youtube-search-api:
+        specifier: ^1.2.2
+        version: 1.2.2
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -1514,6 +1517,9 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
+  axios@0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+
   babel-jest@29.7.0:
     resolution: {integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2094,6 +2100,15 @@ packages:
 
   fn.name@1.1.0:
     resolution: {integrity: sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==}
+
+  follow-redirects@1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   foreground-child@3.3.0:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
@@ -3744,6 +3759,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  youtube-search-api@1.2.2:
+    resolution: {integrity: sha512-zvC+3pDS5Cclv+n+EFunaHzTMAAgt88x5Cth5KpT1xL5Pic30U5oSN2HwFL7rofT8ffDrkitAmBK5UOo9JzjlA==}
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
@@ -5504,6 +5522,12 @@ snapshots:
 
   asynckit@0.4.0: {}
 
+  axios@0.21.4:
+    dependencies:
+      follow-redirects: 1.15.6
+    transitivePeerDependencies:
+      - debug
+
   babel-jest@29.7.0(@babel/core@7.25.2):
     dependencies:
       '@babel/core': 7.25.2
@@ -6189,6 +6213,8 @@ snapshots:
   flatted@3.3.1: {}
 
   fn.name@1.1.0: {}
+
+  follow-redirects@1.15.6: {}
 
   foreground-child@3.3.0:
     dependencies:
@@ -7990,5 +8016,11 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  youtube-search-api@1.2.2:
+    dependencies:
+      axios: 0.21.4
+    transitivePeerDependencies:
+      - debug
 
   zod@3.23.8: {}
