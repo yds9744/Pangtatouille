@@ -116,16 +116,74 @@ export class SearchController {
       }
     });
 
-    const url = 'https://www.10000recipe.com' + items[0];
-    const response2 = await axios.get(url);
+    const finals = await Promise.all(
+      items.map(async (item) => {
+        const url = 'https://www.10000recipe.com' + item;
+        const response2 = await axios.get(url);
 
-    const html2 = response2.data;
-    const $2 = load(html2);
-    const img_url = $2('#main_thumbs').attr()['src'];
-    const ingreList = $2('.ready_ingre3').children('li');
-    console.log(ingreList);
-    ingreList.each((index, list) => {
-      console.log($2(list));
-    });
+        const html2 = response2.data;
+        const $2 = load(html2);
+        const img_url = $2('#main_thumbs').attr()['src'];
+        const title = $2('.view2_summary.st3').children('h3').text();
+        const ingredients = [];
+        const recipes = [];
+        const steps = [];
+        const ingreList = $2('#divConfirmedMaterialArea')
+          .children('ul')
+          .children('li');
+        ingreList.each((index, list) => {
+          const ingre = $2(list)
+            .children('.ingre_list_name')
+            .children('a')
+            .text()
+            .trim();
+          const ea = $2(list).children('.ingre_list_ea').text().trim();
+          let end = -1;
+          // 숫자의 처음부터 끝까지를 amount로 넣지
+          const regex = /[^0-9]/g;
+          for (let i = 0; i < ea.length; i++) {
+            if (ea[i].replace(regex, '').length == 1) end = i;
+          }
+          let amount = '';
+          let unit = '';
+          if (end == -1) {
+            amount = '';
+            unit = ea;
+          } else {
+            amount = ea.substring(0, end + 1);
+            unit = ea.substring(end + 1);
+          }
+          ingredients[index] = {
+            name: ingre,
+            amount: amount,
+            unit: ea,
+          };
+        });
+
+        const recipeList = $2('#obx_recipe_step_start').children(
+          '.view_step_cont.media',
+        );
+        recipeList.each((index, list) => {
+          const recipe = $2(list).children('.media-body').text().trim();
+          steps[index] = {
+            step: index,
+            description: recipe,
+          };
+        });
+
+        const products = await this.searchService.searchByIngredients(
+          ingredients,
+        );
+        const data = {
+          url: img_url,
+          title: title,
+          ingredients: ingredients,
+          recipe: steps,
+          products,
+        };
+        return data;
+      }),
+    );
+    console.log(finals);
   }
 }
