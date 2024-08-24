@@ -2,6 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { Video } from 'types/video';
 import { OpenAIService } from 'libs/openai/openai.service';
+import { mockSearchVideoResponse } from 'src/search/mock.response';
 
 @Controller('search')
 export class SearchController {
@@ -9,6 +10,13 @@ export class SearchController {
     private readonly searchService: SearchService,
     private readonly openaiService: OpenAIService,
   ) {}
+
+  @Get('recipe/youtube/mock')
+  async searchRecipeOnYoutubeMock(
+    @Query('query') query: string,
+  ): Promise<Video[]> {
+    return mockSearchVideoResponse;
+  }
 
   @Get('recipe/youtube')
   async searchRecipeOnYoutube(@Query('query') query: string): Promise<Video[]> {

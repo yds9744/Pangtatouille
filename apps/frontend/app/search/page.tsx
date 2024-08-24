@@ -2,15 +2,16 @@ import Image from "next/image";
 import { Star, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Header from "@/components/Header";
+import { Video } from "@/types/video";
 
 export default async function Search() {
   const keyword = "새우";
 
-  const data = await fetch(
-    `http://localhost:8000/search/youtube?query=${"새우볶음밥"}`
+  const recipeVideos: Video[] = await fetch(
+    `http://localhost:8000/search/recipe/youtube/mock?query=${"새우볶음밥"}`
   ).then((res) => res.json());
 
-  console.log("data", data);
+  console.log("recipeVideos", recipeVideos);
 
   return (
     <main className="min-h-screen">
