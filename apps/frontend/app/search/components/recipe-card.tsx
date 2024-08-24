@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ProductPackage } from "@/types/product-package";
 import { formatNumber } from "@/utils/formatNumber";
 import YouTubeLogo from "@/app/search/components/youtube-logo";
+import { ManLogo } from "@/app/search/components/man-logo";
 
 export function RecipeCard({
   productPackage,
@@ -23,6 +24,14 @@ export function RecipeCard({
   );
   const averageDiscountRate = totalDiscountRate / products.length;
 
+  const thumbnailUrl =
+    productPackage.video?.snippet.thumbnails.high.url ??
+    productPackage.blog?.imageUrl ??
+    "";
+  const title =
+    productPackage.video?.snippet.title ?? productPackage.blog?.title ?? "";
+  const description = productPackage.video?.description ?? "";
+
   return (
     <a
       href={`/details/recipe//${productPackage.id}`}
@@ -33,23 +42,21 @@ export function RecipeCard({
           <div className="relative overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
             <div className="absolute -left-10 -top-10 mb-2 h-[300px] w-[300px]">
               <Image
-                src={productPackage.video?.snippet.thumbnails.high.url ?? ""}
+                src={thumbnailUrl}
                 alt=""
-                width={productPackage.video?.snippet.thumbnails.high.width}
-                height={productPackage.video?.snippet.thumbnails.high.height}
+                width={300}
+                height={300}
                 className="object-cover w-full h-full"
               />
             </div>
             <div className="absolute left-2 top-2">
-              <YouTubeLogo />
+              {productPackage.video ? <YouTubeLogo /> : <ManLogo />}
             </div>
           </div>
-          <span className="text-sm mt-2">
-            {productPackage.video?.title.slice(0, 30)}
-          </span>
+          <span className="text-sm mt-2">{title.slice(0, 30)}</span>
           <div className="h-fit">
             <span className={cn("text-xs text-gray-500 overflow-hidden")}>
-              {productPackage.video?.description.slice(0, 50) + "..."}
+              {description.slice(0, 50) + "..."}
             </span>
           </div>
           <div className="my-2">

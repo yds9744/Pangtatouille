@@ -11,7 +11,7 @@ export type ProductPackage = {
   video?: Video;
   blog?: {
     url: string;
-    imageUrl: img_url;
+    imageUrl: string;
     title: title;
   };
 };

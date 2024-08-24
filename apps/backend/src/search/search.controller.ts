@@ -52,7 +52,7 @@ export class SearchController {
   }
 
   @Get('product-package/10000recipe')
-  async searchRecipeOn10000Recipe(@Query('keyword') keyword: string) {
+  async searchRecipeOn10000Recipe(@Query('query') keyword: string) {
     // keyword를 받으면
     // url을 파싱한다.
     const urlList = 'https://www.10000recipe.com/recipe/list.html?q=' + keyword;

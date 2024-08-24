@@ -3,9 +3,10 @@ import Header from "@/components/Header";
 import { ProductCard } from "@/app/search/components/product-card";
 import { Product } from "@/types/product";
 import { Suspense } from "react";
-import { RecipeCards } from "@/app/search/components/recipe-cards";
+import { YoutubeRecipeCards } from "@/app/search/components/youtube-recipe-cards";
 import { RecipeCardSkeleton } from "@/app/search/components/recipe-card-skeleton";
 import { mockProducts } from "@/app/search/constant/product.constant";
+import { BlogRecipeCards } from "@/app/search/components/blog-recipe-cards";
 
 export default async function Search({
   params,
@@ -50,7 +51,10 @@ function ProductList({ keyword }: { keyword: string }) {
   return (
     <div className="grid grid-cols-4 gap-4">
       <Suspense fallback={<RecipeCardSkeleton />}>
-        <RecipeCards keyword={keyword} />
+        <YoutubeRecipeCards keyword={keyword} />
+      </Suspense>
+      <Suspense fallback={<RecipeCardSkeleton />}>
+        <BlogRecipeCards keyword={keyword} />
       </Suspense>
       {products.map((product) => (
         <ProductCard product={product} key={product.id} />
