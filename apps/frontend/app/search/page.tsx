@@ -50,7 +50,7 @@ function ProductList() {
     unit_price: "(100g당 2,577원)",
     arrival_info: "내일(토) 새벽 도착 보장",
     free_shipping: "무료배송",
-    rating_total_cnt: "(3058)",
+    rating_total_cnt: "3058",
     reward_cash: "77",
     image:
       "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
@@ -96,9 +96,7 @@ function ProductList() {
                   {product.unit_price}
                 </div>
               </div>
-              <div className="text-sm text-green-600 font-medium mb-2">
-                {product.arrival_info}
-              </div>
+              <div className="text-sm text-green-600 font-medium mb-2">{product.arrival_info}</div>
               <div className="text-sm mb-2">{product.free_shipping}</div>
               <div className="mt-2">
                 <div className="flex items-center mb-2">
@@ -109,7 +107,7 @@ function ProductList() {
                     />
                   ))}
                   <span className="ml-1 text-sm text-gray-600">
-                    {product.rating_total_cnt}
+                    ({product.rating_total_cnt})
                   </span>
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
