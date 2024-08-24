@@ -129,7 +129,7 @@ export default async function RecipePage({
               </div>
             </div>
           </div>
-          <Details />
+          <Details recipe={productPackage.recipe} />
         </main>
       </div>
       <ReviewList />
