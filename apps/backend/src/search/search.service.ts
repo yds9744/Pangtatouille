@@ -19,7 +19,7 @@ export class SearchService {
   }
 
   async searchByIngredients(ingredients: Ingredient[]): Promise<Product[]> {
-    return await Promise.all(
+    const result = await Promise.all(
       ingredients.map(async (ingredient) => {
         const ingredientUnit = ingredient.unit.toLowerCase();
 
@@ -27,9 +27,19 @@ export class SearchService {
           name: ingredient.name,
         });
 
-        const searchResult2 = searchResult1.filter(
+        let searchResult2 = searchResult1.filter(
           (product) => product.amountUnit === ingredientUnit,
         );
+
+        if (searchResult2.length === 0) {
+          searchResult2 = searchResult1.filter(
+            (product) => product.quantityUnit === ingredientUnit,
+          );
+        }
+
+        if (searchResult2.length === 0) {
+          searchResult2 = searchResult1;
+        }
 
         const searchResult3 = searchResult2.filter(
           (product) => ingredient.amount === product.amount * product.quantity,
@@ -49,5 +59,7 @@ export class SearchService {
         return searchResult4[0];
       }),
     );
+
+    return result.filter((product) => !!product);
   }
 }
