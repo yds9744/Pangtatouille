@@ -1,5 +1,6 @@
 export type Ingredient = {
   name: string;
-  amount: string;
+  amount: number;
+  unit: string;
   optional: boolean;
 };

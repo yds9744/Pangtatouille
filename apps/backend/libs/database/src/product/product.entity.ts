@@ -32,9 +32,6 @@ export class Product extends BaseEntity {
   @Column('varchar', { length: 100 })
   arrivalInfo: string;
 
-  @Column('varchar', { length: 50 })
-  freeShopping: string;
-
   @Column('int')
   ratingTotalCnt: number;
 
@@ -43,4 +40,12 @@ export class Product extends BaseEntity {
 
   @Column('text')
   imageUrl: string;
+
+  static async searchBy({ name }: { name: string }) {
+    return this.createQueryBuilder('product')
+      .where('product.name LIKE :name', {
+        name: `%${name}%`,
+      })
+      .getMany();
+  }
 }

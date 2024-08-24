@@ -10,6 +10,7 @@ RUN pnpm install
 
 COPY ./src ./src
 COPY ./libs ./libs
+COPY ./types ./types
 COPY nest-cli.json .
 COPY tsconfig.json .
 COPY tsconfig.build.json .
@@ -26,6 +27,7 @@ WORKDIR /app
 
 COPY package.json .
 COPY pnpm-lock.yaml .
+COPY .env .
 
 RUN pnpm install --prod
 
