@@ -5,7 +5,9 @@ export type Product = {
   basePrice: number;
   price: number;
   amount: number;
-  unit: string;
+  amountUnit: string;
+  quantity: number;
+  quantityUnit: string;
   unitPriceText: string;
   arrivalInfo: string;
   ratingTotalCnt: number;

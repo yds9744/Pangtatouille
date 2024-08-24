@@ -50,13 +50,15 @@ function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
     basePrice: 9900,
     price: 7730,
     amount: 1,
-    unit: "팩",
     unitPriceText: "(100g당 2,577원)",
     arrivalInfo: "내일(토) 새벽 도착 보장",
     ratingTotalCnt: 3058,
     rewardCash: 77,
     imageUrl:
       "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
+    amountUnit: "g",
+    quantity: 1,
+    quantityUnit: "팩",
   };
   const products: Product[] = Array(20).fill(product);
 
