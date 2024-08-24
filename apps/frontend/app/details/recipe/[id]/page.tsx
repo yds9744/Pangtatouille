@@ -16,11 +16,11 @@ export default async function RecipePage({
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const recipeId = params.id;
   const productPackage: ProductPackage = await fetch(
-    `${process.env.SERVER_BASE_URL}/product-package/${params.id}`
+    `${process.env.SERVER_BASE_URL}/product-package/${recipeId}`
   ).then((res) => res.json());
 
-  const recipeId = params.id;
   const products = productPackage.products;
   // const [totalPrice, setTotalPrice] = useState(0)
   // const [totalDiscountRate, setTotalDiscountRate] = useState(0)
