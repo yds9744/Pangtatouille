@@ -1,3 +1,4 @@
+import { formatNumber } from "@/utils/formatNumber";
 import { Star } from "lucide-react";
 
 export default function RatingSummary ({ratingTotalCnt} : {ratingTotalCnt:number|null}){
@@ -8,7 +9,7 @@ export default function RatingSummary ({ratingTotalCnt} : {ratingTotalCnt:number
             ))}
             {ratingTotalCnt &&
             <span className="ml-2 text-sm text-blue-500">
-                formatNumber(ratingTotalCnt)개 상품평
+                {formatNumber(ratingTotalCnt)}개 상품평
             </span>
             }
         </div>

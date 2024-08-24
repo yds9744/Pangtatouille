@@ -55,7 +55,7 @@ export default async function RecipePage({
                 {/* text area */}
                 <div>
                   <h1 className="text-lg font-bold mb-1">{recipe.video.title}</h1>
-                  <RatingSummary ratingTotalCnt={5}/>
+                  <RatingSummary ratingTotalCnt={3065}/>
                 </div>
                 <CartBuyButton/>
               </div>
