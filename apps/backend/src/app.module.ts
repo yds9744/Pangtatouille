@@ -7,6 +7,7 @@ import { GlobalModule } from './core/global.module';
 import { MyDataSource } from '@lib/database/config/database.data-source';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { OpenAIService } from 'libs/openai/openai.service';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { DataSource, DataSourceOptions } from 'typeorm';
     GlobalModule,
   ],
   controllers: [AppController],
-  providers: [Logger, AppService],
+  providers: [Logger, AppService, OpenAIService],
 })
 export class AppModule {}
