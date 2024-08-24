@@ -52,7 +52,8 @@ export class OpenAIService {
       ingredients: z.array(
         z.object({
           name: z.string(),
-          amount: z.string(),
+          amount: z.number(),
+          unit: z.string(),
           optional: z.boolean().optional(), // If optional is boolean and can be undefined
         }),
       ),
