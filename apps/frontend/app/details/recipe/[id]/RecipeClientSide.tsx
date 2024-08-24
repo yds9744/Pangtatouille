@@ -70,6 +70,14 @@ export default function RecipeClientSide({
     );
   };
 
+  const thumbnailUrl =
+    productPackage.video?.snippet.thumbnails.high.url ??
+    productPackage.blog?.imageUrl ??
+    "";
+  const title =
+    productPackage.video?.snippet.title ?? productPackage.blog?.title ?? "";
+  const description = productPackage.video?.description ?? "";
+
   return (
     <div>
       <div className="min-h-screen">
@@ -78,11 +86,7 @@ export default function RecipeClientSide({
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Product Image */}
             <div className="w-full lg:w-1/2">
-              <img
-                src={productPackage.video?.snippet.thumbnails.high.url}
-                alt=""
-                className="w-full h-auto"
-              />
+              <img src={thumbnailUrl} alt="" className="w-full h-auto" />
             </div>
 
             {/* Product Details */}
@@ -90,9 +94,7 @@ export default function RecipeClientSide({
               <div className="flex flex-row justify-between">
                 {/* text area */}
                 <div>
-                  <h1 className="text-lg font-bold mb-1">
-                    {productPackage.video?.title}
-                  </h1>
+                  <h1 className="text-lg font-bold mb-1">{title}</h1>
                   <RatingSummary ratingTotalCnt={3065} />
                 </div>
                 <ShareButton />

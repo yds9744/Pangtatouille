@@ -28,10 +28,8 @@ export function RecipeCard({
     productPackage.video?.snippet.thumbnails.high.url ??
     productPackage.blog?.imageUrl ??
     "";
-
   const title =
     productPackage.video?.snippet.title ?? productPackage.blog?.title ?? "";
-
   const description = productPackage.video?.description ?? "";
 
   return (
