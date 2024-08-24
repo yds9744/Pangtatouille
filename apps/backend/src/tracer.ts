@@ -18,7 +18,6 @@ import {
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
 } from '@opentelemetry/semantic-conventions';
-import { SamplingDecorator } from './sampling-decorator';
 
 // diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG); // Uncomment this line to debug otel
 
@@ -45,12 +44,7 @@ const otelSDK = new NodeSDK({
     [ATTR_SERVICE_NAME]: `${process.env.OTEL_SERVICE_NAME}-${process.env.NODE_ENV}`,
     [ATTR_SERVICE_VERSION]: '1.0',
   }),
-  spanProcessors: [
-    new SamplingDecorator(
-      new BatchSpanProcessor(traceExporter),
-      samplePercentage,
-    ),
-  ],
+  spanProcessors: [new BatchSpanProcessor(traceExporter)],
   textMapPropagator: new CompositePropagator({
     propagators: [
       new W3CTraceContextPropagator(),
