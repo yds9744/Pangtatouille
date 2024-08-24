@@ -6,6 +6,7 @@ import { FullRecipe } from "@/types/full-recipe";
 import { Product } from "@/types/product";
 import { Suspense } from "react";
 import { RecipeCards } from "@/app/search/components/recipe-cards";
+import { RecipeCardSkeleton } from "@/app/search/components/recipe-card-skeleton";
 
 export default async function Search({
   params,
@@ -66,7 +67,7 @@ function ProductList({ keyword }: { keyword: string }) {
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      <Suspense fallback={<p>Loading feed...</p>}>
+      <Suspense fallback={<RecipeCardSkeleton />}>
         <RecipeCards keyword={keyword} />
       </Suspense>
       {products.map((product) => (
