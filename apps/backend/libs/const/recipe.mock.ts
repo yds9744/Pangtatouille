@@ -1,6 +1,6 @@
 import { FullRecipe } from 'types/full-recipe';
 
-const FULL_RECIPE_MOCK: FullRecipe = {
+export const FULL_RECIPE_MOCK: FullRecipe = {
   ingredients: [
     {
       name: '쌀떡',
