@@ -106,6 +106,6 @@ export class SearchService {
       }),
     );
 
-    return result.filter((product) => !!product);
+    return result.filter((product) => !!product.id);
   }
 }
