@@ -24,7 +24,7 @@ for dirpath, _, filenames in os.walk(directory):
                     for row in reader:
                         name = row[0]
                         split_text = name.split(', ')
-                        if len(split_text) > 1:
+                        if len(split_text) > 2:
                             amount_unit = split_text[1]
                             amount, amount_unit = split_amount_unit(amount_unit)
                             quantity_unit = split_text[2]
