@@ -1,5 +1,3 @@
-// "use client"
-
 import Image from "next/image";
 import Header from '@/components/Header'
 import Options from './components/Options'
@@ -8,18 +6,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Star, Heart, Share} from "lucide-react";
+import { formatNumber } from '@/utils/formatNumber';
 
 export default function Component() {
   const product = {
-    name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
-    discount_rate: "21%",
-    base_price: "9,900",
-    price: "7,730",
-    unit_price: "(100g당 2,577원)",
-    arrival_info: "내일(토) 새벽 도착 보장",
-    rating_total_cnt: "3058",
-    reward_cash: "77",
-    image:
+    Id: 0,
+    Name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
+    DiscountRate: 21,
+    BasePrice: 9900,
+    Price: 7730,
+    Amount: 1,
+    Unit: "팩",
+    UnitPrice: 25.77,
+    UnitPriceText: "(100g당 2,577원)",
+    ArrivalInfo: "내일(토) 새벽 도착 보장",
+    RatingTotalCnt: 3058,
+    RewardCash: 77,
+    ImageUrl:
       "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
   }
 
@@ -31,7 +34,7 @@ export default function Component() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Product Image */}
             <div className="w-full lg:w-1/2">
-              <img src={product.image} alt="" className="w-full h-auto"/>
+              <img src={product.ImageUrl} alt="" className="w-full h-auto"/>
             </div>
 
             {/* Product Details */}
@@ -39,13 +42,13 @@ export default function Component() {
               <div className="flex flex-row justify-between">
                 {/* text area */}
                 <div>
-                  <h1 className="text-lg font-bold mb-1">{product.name}</h1>
+                  <h1 className="text-lg font-bold mb-1">{product.Name}</h1>
                   <div className="flex items-center mb-2">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
                     ))}
                     <span className="ml-2 text-sm text-blue-500">
-                      {product.rating_total_cnt}개 상품평
+                      {formatNumber(product.RatingTotalCnt)}개 상품평
                     </span>
                   </div>
                 </div>
@@ -62,18 +65,18 @@ export default function Component() {
               <hr/>
               {/* Price */}
               <div className="my-2">
-                {product.discount_rate && product.base_price && (
+                {product.DiscountRate && product.BasePrice && (
                   <div className="flex items-baseline text-xs space-x-1">
-                    <span>{product.discount_rate}</span>
+                    <span>{product.DiscountRate}%</span>
                     <span className="line-through text-gray-400">
-                      {product.base_price}
+                      {formatNumber(product.BasePrice)}원
                     </span>
                   </div>
                 )}
                 <div className="flex items-center space-x-1">
-                  <span className="text-xl text-red-600 font-bold">{product.price}원</span>
-                  <span className="text-sm text-red-600">{product.unit_price}</span>
-                  {product.discount_rate && product.base_price && (<span className="text-sm text-red-600 font-medium">와우할인가</span>)}
+                  <span className="text-xl text-red-600 font-bold">{formatNumber(product.Price)}원</span>
+                  <span className="text-sm text-red-600">{product.UnitPriceText}</span>
+                  {product.DiscountRate && product.BasePrice && (<span className="text-sm text-red-600 font-medium">와우할인가</span>)}
                   <Image src="https://image6.coupangcdn.com/image/badges/falcon/v1/web/rocket-fresh@2x.png" alt="로켓프레시" width={63} height={14}/>
                 </div>
               </div>
@@ -87,7 +90,7 @@ export default function Component() {
                 <span className="text-xs text-white bg-green-600 px-2 py-1">로켓프레시 구매가능</span>
               </div>
               <hr/>
-              <div className="text-sm text-green-600 font-medium mt-2">{product.arrival_info}</div>
+              <div className="text-sm text-green-600 font-medium mt-2">{product.ArrivalInfo}</div>
               <div className="text-xs font-bold mb-2">무료배송</div>
 
               <Options/>

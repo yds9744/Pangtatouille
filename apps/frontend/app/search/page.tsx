@@ -44,19 +44,19 @@ export default async function Search() {
 
 function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
   const product: Product = {
-    id: 0,
-    name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
-    discount_rate: 21,
-    base_price: 9900,
-    price: 7730,
-    amount: 1,
-    unit: "팩",
-    unit_price: 25.77,
-    unit_price_text: "(100g당 2,577원)",
-    arrival_info: "내일(토) 새벽 도착 보장",
-    rating_total_cnt: 3058,
-    reward_cash: 77,
-    image_url:
+    Id: 0,
+    Name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
+    DiscountRate: 21,
+    BasePrice: 9900,
+    Price: 7730,
+    Amount: 1,
+    Unit: "팩",
+    UnitPrice: 25.77,
+    UnitPriceText: "(100g당 2,577원)",
+    ArrivalInfo: "내일(토) 새벽 도착 보장",
+    RatingTotalCnt: 3058,
+    RewardCash: 77,
+    ImageUrl:
       "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
   };
   const products: Product[] = Array(20).fill(product);
