@@ -22,6 +22,45 @@ export class SearchController {
     return FULL_RECIPES_MOCK;
   }
 
+  @Get('full-recipe/youtube')
+  async searchFullRecipeOnYoutube(
+    @Query('query') query: string,
+  ): Promise<FullRecipe[]> {
+    const videos = await this.searchService.searchRecipeVideoOnYoutube(query);
+    const recipeVideos = (
+      await Promise.all(
+        videos.map(async (video) => {
+          const isRecipe = await this.openaiService.isRecipe(video.description);
+          return { ...video, isRecipe };
+        }),
+      )
+    ).filter((video) => video.isRecipe);
+
+    if (recipeVideos.length > 0) {
+      const fullRecipes = await Promise.all(
+        recipeVideos.map(async (video) => {
+          const recipeAndIngredients =
+            await this.openaiService.extractRecipeAndIngredients(
+              video.description,
+            );
+          const products = await this.searchService.searchByIngredients(
+            recipeAndIngredients.ingredients,
+          );
+          const fullRecipe: FullRecipe = {
+            id: 1,
+            video,
+            products,
+            ...recipeAndIngredients,
+          };
+          return fullRecipe;
+        }),
+      );
+      return fullRecipes;
+    }
+
+    return [];
+  }
+
   @Get('recipe/youtube/mock')
   async searchRecipeOnYoutubeMock(
     @Query('query') query: string,

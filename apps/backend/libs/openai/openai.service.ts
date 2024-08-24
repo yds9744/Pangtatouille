@@ -18,7 +18,9 @@ export class OpenAIService {
     });
   }
 
-  async extractFullRecipe(text: string): Promise<FullRecipe> {
+  async extractRecipeAndIngredients(
+    text: string,
+  ): Promise<Pick<FullRecipe, 'ingredients' | 'recipe'>> {
     const FullRecipeObj = z.object({
       ingredients: z.array(
         z.object({
@@ -55,7 +57,10 @@ export class OpenAIService {
       response_format: zodResponseFormat(FullRecipeObj, 'fullRecipe'),
     });
 
-    const recipe = completion.choices[0].message.parsed as FullRecipe;
+    const recipe = completion.choices[0].message.parsed as Pick<
+      FullRecipe,
+      'ingredients' | 'recipe'
+    >;
     return recipe;
   }
 

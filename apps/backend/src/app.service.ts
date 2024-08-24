@@ -9,7 +9,7 @@ export class AppService {
   constructor(private readonly openAIService: OpenAIService) {}
 
   async getFullRecipe(description: string): Promise<FullRecipe> {
-    return await this.openAIService.extractFullRecipe(description);
+    return await this.openAIService.extractRecipeAndIngredients(description);
   }
 
   async getRecipe(description: string): Promise<Recipe> {
