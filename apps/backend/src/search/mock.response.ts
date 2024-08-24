@@ -1,4 +1,6 @@
-export const mockSearchVideoResponse = [
+import { Video } from 'types/video';
+
+export const mockSearchVideoResponse: Video[] = [
   {
     videoId: 'iqGP80rwI9I',
     url: 'https://www.youtube.com/watch?v=iqGP80rwI9I',

@@ -1,16 +1,72 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { Video } from 'types/video';
 import { OpenAIService } from 'libs/openai/openai.service';
 import { mockSearchVideoResponse } from 'src/search/mock.response';
 import axios from 'axios';
 import { load } from 'cheerio';
+import { ProductPackage } from 'types/product-package';
+import { PRODUCT_PACKAGE_MOCK } from 'libs/const/product-package.mock';
+
 @Controller('search')
 export class SearchController {
+  protected readonly logger = new Logger(this.constructor.name);
+
   constructor(
     private readonly searchService: SearchService,
     private readonly openaiService: OpenAIService,
   ) {}
+
+  @Get('product-package/youtube/mock')
+  async searchProductPackageOnYoutubeMock(
+    @Query('query') query: string,
+  ): Promise<ProductPackage[]> {
+    // mimic 3 seconds delay
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    return PRODUCT_PACKAGE_MOCK;
+  }
+
+  @Get('product-package/youtube')
+  async searchProductPackageOnYoutube(
+    @Query('query') query: string,
+  ): Promise<ProductPackage[]> {
+    const videos = await this.searchService.searchRecipeVideoOnYoutube(query);
+    const recipeVideos = (
+      await Promise.all(
+        videos.map(async (video) => {
+          const isRecipe = await this.openaiService.isRecipe(video.description);
+          return { ...video, isRecipe };
+        }),
+      )
+    ).filter((video) => video.isRecipe);
+
+    if (recipeVideos.length > 0) {
+      const productPackages = await Promise.all(
+        recipeVideos.map(async (video) => {
+          const recipeAndIngredients =
+            await this.openaiService.extractRecipeAndIngredients(
+              video.description,
+            );
+          const products = await this.searchService.searchByIngredients(
+            recipeAndIngredients.ingredients,
+          );
+          const productPackage: ProductPackage = {
+            id: 1,
+            video,
+            products,
+            ...recipeAndIngredients,
+          };
+          return productPackage;
+        }),
+      );
+      this.logger.log(
+        `productPackages: ${JSON.stringify(productPackages, null, 2)}`,
+      );
+      return productPackages;
+    }
+
+    return [];
+  }
 
   @Get('recipe/youtube/mock')
   async searchRecipeOnYoutubeMock(
@@ -30,6 +86,13 @@ export class SearchController {
     );
 
     return recipeVideos.filter((video) => video.isRecipe);
+  }
+
+  @Get('ingredient')
+  async searchByIngredient(@Query('keyword') keyword: string) {
+    return await this.searchService.searchByIngredients(
+      PRODUCT_PACKAGE_MOCK[0].ingredients,
+    );
   }
 
   @Get()
@@ -55,11 +118,14 @@ export class SearchController {
 
     const url = 'https://www.10000recipe.com' + items[0];
     const response2 = await axios.get(url);
-    console.log(response2.status);
+
     const html2 = response2.data;
     const $2 = load(html2);
     const img_url = $2('#main_thumbs').attr()['src'];
     const ingreList = $2('.ready_ingre3').children('li');
-    ingreList.each((index, list) => {});
+    console.log(ingreList);
+    ingreList.each((index, list) => {
+      console.log($2(list));
+    });
   }
 }

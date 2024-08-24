@@ -1,18 +1,20 @@
 import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
-import { Video } from "@/types/video";
 import { ProductCard } from "@/app/search/components/product-card";
 import { Product } from "@/types/product";
-import { RecipeCard } from "@/app/search/components/recipe-card";
+import { Suspense } from "react";
+import { RecipeCards } from "@/app/search/components/recipe-cards";
+import { RecipeCardSkeleton } from "@/app/search/components/recipe-card-skeleton";
+import { mockProducts } from "@/app/search/constant/product.constant";
 
-export default async function Search() {
-  const keyword = "새우";
-
-  const recipeVideos: Video[] = await fetch(
-    `http://localhost:8000/search/recipe/youtube/mock?query=${"새우볶음밥"}`
-  ).then((res) => res.json());
-
-  console.log("recipeVideos", recipeVideos);
+export default async function Search({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const keyword = searchParams?.keyword as string;
 
   return (
     <main className="min-h-screen">
@@ -35,37 +37,21 @@ export default async function Search() {
           </select>
         </div>
         <div className="flex flex-col items-center">
-          <ProductList recipeVideos={recipeVideos} />
+          <ProductList keyword={keyword} />
         </div>
       </div>
     </main>
   );
 }
 
-function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
-  const product: Product = {
-    id: 0,
-    name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
-    discount_rate: 21,
-    base_price: 9900,
-    price: 7730,
-    amount: 1,
-    unit: "팩",
-    unit_price: 25.77,
-    unit_price_text: "(100g당 2,577원)",
-    arrival_info: "내일(토) 새벽 도착 보장",
-    rating_total_cnt: 3058,
-    reward_cash: 77,
-    image_url:
-      "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
-  };
-  const products: Product[] = Array(20).fill(product);
+function ProductList({ keyword }: { keyword: string }) {
+  const products: Product[] = mockProducts;
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {recipeVideos.map((video) => (
-        <RecipeCard recipeVieo={video} key={video.videoId} />
-      ))}
+      <Suspense fallback={<RecipeCardSkeleton />}>
+        <RecipeCards keyword={keyword} />
+      </Suspense>
       {products.map((product) => (
         <ProductCard product={product} key={product.id} />
       ))}

@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import { Ingredient } from 'types/ingredient';
 import { Recipe } from 'types/recipe';
+import { ProductPackage } from 'types/product-package';
 
 @Injectable()
 export class OpenAIService {
@@ -15,6 +16,53 @@ export class OpenAIService {
     this.openai = new OpenAI({
       apiKey: configService.getOrThrow('OPENAI_API_KEY'),
     });
+  }
+
+  async extractRecipeAndIngredients(
+    text: string,
+  ): Promise<Pick<ProductPackage, 'ingredients' | 'recipe'>> {
+    const FullRecipeObj = z.object({
+      ingredients: z.array(
+        z.object({
+          name: z.string(),
+          amount: z.number(),
+          unit: z.string(),
+          optional: z.boolean().optional(), // If optional is boolean and can be undefined
+        }),
+      ),
+      recipe: z.object({
+        steps: z.array(
+          z.object({
+            step: z.number(),
+            description: z.string(),
+            optional: z.boolean().optional(), // If optional is boolean and can be undefined
+          }),
+        ),
+      }),
+    });
+
+    const completion = await this.openai.beta.chat.completions.parse({
+      // model: 'gpt-4o-2024-08-06',
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'Extract the recipe and ingredients information. The result should be written in Korean.',
+        },
+        {
+          role: 'user',
+          content: text,
+        },
+      ],
+      response_format: zodResponseFormat(FullRecipeObj, 'fullRecipe'),
+    });
+
+    const recipe = completion.choices[0].message.parsed as Pick<
+      ProductPackage,
+      'ingredients' | 'recipe'
+    >;
+    return recipe;
   }
 
   async extractRecipe(text: string): Promise<Recipe> {
@@ -33,7 +81,11 @@ export class OpenAIService {
       // model: 'gpt-4o-2024-08-06',
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'Extract the recipe information.' },
+        {
+          role: 'system',
+          content:
+            'Extract the recipe information. The result should be written in Korean.',
+        },
         {
           role: 'user',
           content: text,
@@ -63,7 +115,11 @@ export class OpenAIService {
       // model: 'gpt-4o-2024-08-06',
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'Extract the ingredients information.' },
+        {
+          role: 'system',
+          content:
+            'Extract the ingredients information. The result should be written in Korean.',
+        },
         {
           role: 'user',
           content: text,
