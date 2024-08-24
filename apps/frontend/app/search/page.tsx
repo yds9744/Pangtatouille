@@ -1,18 +1,24 @@
 import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
-import { Video } from "@/types/video";
 import { ProductCard } from "@/app/search/components/product-card";
 import { Product } from "@/types/product";
 import { RecipeCard } from "@/app/search/components/recipe-card";
+import { FullRecipe } from "@/types/full-recipe";
 
-export default async function Search() {
-  const keyword = "새우";
+export default async function Search({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const keyword = searchParams?.keyword;
 
-  const recipeVideos: Video[] = await fetch(
-    `http://localhost:8000/search/recipe/youtube/mock?query=${"새우볶음밥"}`
+  const fullRecipes: FullRecipe[] = await fetch(
+    `http://localhost:8000/search/full-recipe/youtube/mock?query=${keyword}`
   ).then((res) => res.json());
 
-  console.log("recipeVideos", recipeVideos);
+  console.log("recipeVideos", fullRecipes);
 
   return (
     <main className="min-h-screen">
@@ -35,14 +41,14 @@ export default async function Search() {
           </select>
         </div>
         <div className="flex flex-col items-center">
-          <ProductList recipeVideos={recipeVideos} />
+          <ProductList fullRecipes={fullRecipes} />
         </div>
       </div>
     </main>
   );
 }
 
-function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
+function ProductList({ fullRecipes }: { fullRecipes: FullRecipe[] }) {
   const product: Product = {
     id: 0,
     name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
@@ -50,20 +56,22 @@ function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
     basePrice: 9900,
     price: 7730,
     amount: 1,
-    unit: "팩",
     unitPriceText: "(100g당 2,577원)",
     arrivalInfo: "내일(토) 새벽 도착 보장",
     ratingTotalCnt: 3058,
     rewardCash: 77,
     imageUrl:
       "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
+    amountUnit: "g",
+    quantity: 1,
+    quantityUnit: "팩",
   };
   const products: Product[] = Array(20).fill(product);
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {recipeVideos.map((video) => (
-        <RecipeCard recipeVieo={video} key={video.videoId} />
+      {fullRecipes.map((recipe, index) => (
+        <RecipeCard fullRecipe={recipe} key={index} />
       ))}
       {products.map((product) => (
         <ProductCard product={product} key={product.id} />
