@@ -67,7 +67,7 @@ function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
         <RecipeCard recipeVieo={video} key={video.videoId} />
       ))}
       {products.map((product) => (
-        <ProductCard product={product} key={product.id} />
+        <ProductCard product={product} key={product.Id} />
       ))}
     </div>
   );
