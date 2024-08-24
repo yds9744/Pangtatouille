@@ -32,9 +32,6 @@ export class Product extends BaseEntity {
   @Column('varchar', { length: 100 })
   arrivalInfo: string;
 
-  @Column('varchar', { length: 50 })
-  freeShopping: string;
-
   @Column('int')
   ratingTotalCnt: number;
 
