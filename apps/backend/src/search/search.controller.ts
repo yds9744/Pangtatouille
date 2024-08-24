@@ -5,12 +5,17 @@ import { OpenAIService } from '../../libs/openai/openai.service';
 @Controller('search')
 export class SearchController {
   constructor(
-    private readonly systemService: SearchService,
+    private readonly searchService: SearchService,
     private readonly openaiService: OpenAIService,
   ) {}
 
   @Get('youtube')
-  search(@Query('query') query: string): Promise<string> {
-    return this.systemService.searchYoutube(query);
+  searchYoutube(@Query('query') query: string): Promise<string> {
+    return this.searchService.searchYoutube(query);
+  }
+
+  @Get()
+  async search(@Query('keyword') keyword: string) {
+    return await this.searchService.search(keyword);
   }
 }

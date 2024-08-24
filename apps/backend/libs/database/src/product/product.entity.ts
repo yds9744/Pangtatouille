@@ -43,4 +43,12 @@ export class Product extends BaseEntity {
 
   @Column('text')
   imageUrl: string;
+
+  static async searchBy({ name }: { name: string }) {
+    return this.createQueryBuilder('product')
+      .where('product.name LIKE :name', {
+        name: `%${name}%`,
+      })
+      .getMany();
+  }
 }
