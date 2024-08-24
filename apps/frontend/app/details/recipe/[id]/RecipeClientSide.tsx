@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import RatingSummary from "@/components/RatingSummary";
@@ -84,10 +84,13 @@ export default function RecipeClientSide({
     const selectedProducts = products.filter((_, index) => checkedList[index]);
     const selectedQuantities = quantityList.filter((_, index) => checkedList[index]);
 
-    // Pass the data via router state
-    router.push('/cart', {
-      // state: { selectedProducts, selectedQuantities },
-    });
+    const query = new URLSearchParams({
+      products: JSON.stringify(selectedProducts),
+      quantities: JSON.stringify(selectedQuantities),
+    }).toString();
+
+    router.push(`/cart?${query}`);
+  
   }
 
   return (

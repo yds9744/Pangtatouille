@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import ProductList from './components/ProductList'
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import ProductList from './components/ProductList';
 import { Product } from "@/types/product";
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const product : Product = {
+const defaultProduct: Product = {
   id: 0,
   name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
   discountRate: 21,
@@ -19,40 +20,67 @@ const product : Product = {
   arrivalInfo: "내일(토) 새벽 도착 보장",
   ratingTotalCnt: 3058,
   rewardCash: 77,
-  imageUrl:
-    "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
-}
-const products: Product[] = Array(20).fill(product);
+  imageUrl: "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
+};
 
+export default function CartPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [quantityList, setQuantityList] = useState<number[]>([]);
+  const [checkedList, setCheckedList] = useState<boolean[]>([]);
+  const [total, setTotal] = useState(0);
+  const searchParams = useSearchParams();
 
-export default function Component() {
-  const [quantityList, setQuantityList] = useState<number[]>(Array(products.length).fill(1))
-  const [checkedList, setCheckedList] = useState<boolean[]>(Array(products.length).fill(true))
-  const [total, setTotal] = useState(0)
+  useEffect(() => {
+    // Extract and log query parameters
+    const productsParam = searchParams.get('products');
+    const quantitiesParam = searchParams.get('quantities');
+
+    // Optionally parse and log parsed data
+    try {
+      const parsedProducts: Product[] = productsParam ? JSON.parse(productsParam) : [];
+      const parsedQuantities: number[] = quantitiesParam ? JSON.parse(quantitiesParam) : [];
+      
+      // Set products and quantities
+      if (parsedProducts.length) {
+        setProducts(parsedProducts);
+        setQuantityList(parsedQuantities.length ? parsedQuantities : Array(parsedProducts.length).fill(1));
+        setCheckedList(Array(parsedProducts.length).fill(true));
+      } else {
+        setProducts(Array(20).fill(defaultProduct));
+        setQuantityList(Array(20).fill(1));
+        setCheckedList(Array(20).fill(true));
+      }
+    } catch (error) {
+      console.error('Error parsing query parameters:', error);
+      // Fallback to default products if there's an error
+      setProducts(Array(20).fill(defaultProduct));
+      setQuantityList(Array(20).fill(1));
+      setCheckedList(Array(20).fill(true));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const newTotal = products.reduce((sum, product, index) => {
-      return sum + (checkedList[index] ? product.price * quantityList[index] : 0)
+      return sum + (checkedList[index] ? product.price * quantityList[index] : 0);
     }, 0);
-    setTotal(newTotal)
-  }, [quantityList, checkedList])
+    setTotal(newTotal);
+  }, [products, quantityList, checkedList]);
 
   const updateQuantityList = (id: number, addNum: number) => {
-    setQuantityList((prevQuantity) =>
+    setQuantityList(prevQuantity =>
       prevQuantity.map((quantity, index) =>
-        index === id ? Math.max(1, quantityList[id] + addNum) : quantity
+        index === id ? Math.max(1, quantity + addNum) : quantity
       )
     );
-  }
+  };
 
   const updateCheckedList = (id: number) => {
-    setCheckedList((prevCheckedList) =>
+    setCheckedList(prevCheckedList =>
       prevCheckedList.map((checked, index) =>
         index === id ? !checked : checked
       )
     );
-    // console.log(checkedList)
-  }
+  };
 
   return (
     <div className="flex flex-col items-center container mx-auto p-4 bg-gray-100">
@@ -74,13 +102,12 @@ export default function Component() {
                 <ProductList products={products} quantityList={quantityList} updateQuantityList={updateQuantityList} updateCheckedList={updateCheckedList}/>
               </div>
             </div>
-    
-          <TotalPrice total={total} />
+            <TotalPrice total={total} />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function CartHeader() {
@@ -101,10 +128,10 @@ function CartHeader() {
         <span className="text-gray-300">04 주문완료</span>
       </div>
     </div>
-  )
+  );
 }
 
-function TotalPrice({total} : {total: number}) {
+function TotalPrice({ total }: { total: number }) {
   return (
     <div className="w-[300px]">
     <div className="sticky top-4">
@@ -134,5 +161,5 @@ function TotalPrice({total} : {total: number}) {
       </div>
     </div>
   </div>
-  )
+  );
 }
