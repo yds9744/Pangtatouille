@@ -17,15 +17,12 @@ export default async function RecipePage({
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const productPackage: ProductPackage[] = await fetch(
-    `${
-      process.env.SERVER_BASE_URL
-    }/search/full-recipe/youtube/mock?query=${"hi"}`
-  ).then((res) => res.json()); // TODO: replace this with http://localhost:8000/full-recipe/${id}
+  const productPackage: ProductPackage = await fetch(
+    `${process.env.SERVER_BASE_URL}/product-package/${params.id}`
+  ).then((res) => res.json());
 
   const recipeId = params.id;
-  const recipe = productPackage[0];
-  const products = recipe.products;
+  const products = productPackage.products;
   // const [totalPrice, setTotalPrice] = useState(0)
   // const [totalDiscountRate, setTotalDiscountRate] = useState(0)
   // const [totalBasePrice, setTotalBasePrice] = useState(0)
@@ -91,7 +88,7 @@ export default async function RecipePage({
             {/* Product Image */}
             <div className="w-full lg:w-1/2">
               <img
-                src={recipe.video.snippet.thumbnails.high.url}
+                src={productPackage.video.snippet.thumbnails.high.url}
                 alt=""
                 className="w-full h-auto"
               />
@@ -103,7 +100,7 @@ export default async function RecipePage({
                 {/* text area */}
                 <div>
                   <h1 className="text-lg font-bold mb-1">
-                    {recipe.video.title}
+                    {productPackage.video.title}
                   </h1>
                   <RatingSummary ratingTotalCnt={3065} />
                 </div>
@@ -132,7 +129,7 @@ export default async function RecipePage({
               </div>
             </div>
           </div>
-          <Details />
+          <Details recipe={productPackage.recipe} />
         </main>
       </div>
       <ReviewList />

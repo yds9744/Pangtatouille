@@ -65,7 +65,7 @@ export class SearchController {
     return await this.searchService.search(keyword);
   }
 
-  @Get('recipe/10000recipe')
+  @Get('product-package/10000recipe')
   async searchRecipeOn10000Recipe(@Query('keyword') keyword: string) {
     // keyword를 받으면
     // url을 파싱한다.
@@ -126,8 +126,8 @@ export class SearchController {
           }
           ingredients[index] = {
             name: ingre,
-            amount: amount,
-            unit: unit,
+            amount,
+            unit,
           };
         });
 
@@ -137,7 +137,7 @@ export class SearchController {
         recipeList.each((index, list) => {
           const recipe = $2(list).children('.media-body').text().trim();
           steps[index] = {
-            step: index,
+            step: index + 1,
             description: recipe,
           };
         });
@@ -146,7 +146,8 @@ export class SearchController {
           ingredients,
         );
         const data = {
-          url: img_url,
+          url,
+          imageUrl: img_url,
           title: title,
           ingredients: ingredients,
           recipe: steps,
