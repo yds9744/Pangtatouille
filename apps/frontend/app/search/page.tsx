@@ -1,6 +1,5 @@
 import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
-import { Video } from "@/types/video";
 import { ProductCard } from "@/app/search/components/product-card";
 import { Product } from "@/types/product";
 import { RecipeCard } from "@/app/search/components/recipe-card";
@@ -13,10 +12,10 @@ export default async function Search({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const query = searchParams?.query;
+  const keyword = searchParams?.keyword;
 
   const fullRecipes: FullRecipe[] = await fetch(
-    `http://localhost:8000/search/full-recipe/youtube/mock?query=${query}`
+    `http://localhost:8000/search/full-recipe/youtube/mock?query=${keyword}`
   ).then((res) => res.json());
 
   console.log("recipeVideos", fullRecipes);
@@ -29,12 +28,12 @@ export default async function Search({
           <span className="flex items-center text-sm">
             전체
             <ChevronRight className="w-4 h-4 mx-1" />
-            {query}
+            {keyword}
           </span>
         </div>
         <div className="flex flex-row items-center justify-between px-60 py-4">
           <div>
-            <span className="font-bold">{query}</span>
+            <span className="font-bold">{keyword}</span>
             <span>에 대한 검색결과</span>
           </div>
           <select className="border rounded text-sm p-2">
