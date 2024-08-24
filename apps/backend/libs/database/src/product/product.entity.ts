@@ -46,7 +46,7 @@ export class Product extends BaseEntity {
 
   static async searchBy({ name }: { name: string }) {
     return this.createQueryBuilder('product')
-      .where(`to_tsvector('english', 'name') @@ to_tsquery(:name)`, {
+      .where(`to_tsvector('english', 'name') @@ plainto_tsquery(:name)`, {
         name,
       })
       .getMany();
