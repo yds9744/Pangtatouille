@@ -26,14 +26,16 @@ export function RecipeCard({
     <a href={`/details/recipe//${productPackage.id}`}>
       <div className={cn("m-2 bg-card text-card-foreground")}>
         <CardContent className="p-0 w-[220px] h-[430px]">
-          <div className="overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
-            <Image
-              src={productPackage.video.snippet.thumbnails.high.url}
-              alt=""
-              width={230}
-              height={230}
-              className="object-cover w-full h-full"
-            />
+          <div className="relative overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
+            <div className="absolute -left-10 -top-10 mb-2 h-[300px] w-[300px]">
+              <Image
+                src={productPackage.video.snippet.thumbnails.high.url}
+                alt=""
+                width={productPackage.video.snippet.thumbnails.high.width}
+                height={productPackage.video.snippet.thumbnails.high.height}
+                className="object-cover w-full h-full"
+              />
+            </div>
           </div>
           <span className="text-sm mt-2">
             {productPackage.video.title.slice(0, 30)}
