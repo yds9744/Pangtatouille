@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { OpenAIService } from 'libs/openai/openai.service';
 import { SearchModule } from 'src/search/search.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SearchModule } from 'src/search/search.module';
     GlobalModule,
     SystemModule,
     SearchModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [Logger, AppService, OpenAIService],
