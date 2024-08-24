@@ -17,7 +17,9 @@ export default function RecipeClientSide({
   productPackage: ProductPackage;
 }) {
   const router = useRouter();
-  const products = productPackage.products;
+  const sauceProducts = productPackage.products.filter(product => product.ingredient?.isSauce);
+  const nonSauceProducts = productPackage.products.filter(product => !product.ingredient?.isSauce);
+  const products = [...nonSauceProducts, ...sauceProducts];
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalBasePrice, setTotalBasePrice] = useState(0);
@@ -25,7 +27,12 @@ export default function RecipeClientSide({
   const [quantityList, setQuantityList] = useState<number[]>(
     Array(products.length).fill(1)
   );
-  const [checkedList, setCheckedList] = useState<boolean[]>(products.map(product => !product.ingredient?.isSauce));
+  const [checkedList, setCheckedList] = useState<boolean[]>(
+    [
+    ...Array(nonSauceProducts.length).fill(true),
+    ...Array(sauceProducts.length).fill(false),
+    ]
+  );
 
   useEffect(() => {
     const newTotalPrice = products.reduce((sum, product, index) => {
@@ -123,6 +130,7 @@ export default function RecipeClientSide({
               <ProductList
                 products={products}
                 quantityList={quantityList}
+                checkedList={checkedList}
                 updateCheckedList={updateCheckedList}
                 updateQuantityList={updateQuantityList}
                 isRecipeView={true}
