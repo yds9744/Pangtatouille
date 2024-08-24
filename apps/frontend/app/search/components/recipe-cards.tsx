@@ -7,10 +7,10 @@ export async function RecipeCards({ keyword }: { keyword: string }) {
   ).then((res) => res.json());
 
   return (
-    <div>
+    <>
       {productPackages.map((recipe) => (
         <RecipeCard key={recipe.id} productPackage={recipe} />
       ))}
-    </div>
+    </>
   );
 }
