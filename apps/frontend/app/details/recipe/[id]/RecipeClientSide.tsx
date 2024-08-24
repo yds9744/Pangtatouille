@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from 'next/router';
 import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import RatingSummary from "@/components/RatingSummary";
@@ -15,6 +16,7 @@ export default function RecipeClientSide({
 }: {
   productPackage: ProductPackage;
 }) {
+  const router = useRouter();
   const products = productPackage.products;
 
   const [totalPrice, setTotalPrice] = useState(0);
@@ -78,6 +80,16 @@ export default function RecipeClientSide({
     productPackage.video?.snippet.title ?? productPackage.blog?.title ?? "";
   const description = productPackage.video?.description ?? "";
 
+  const handleCartButtonClick = () => {
+    const selectedProducts = products.filter((_, index) => checkedList[index]);
+    const selectedQuantities = quantityList.filter((_, index) => checkedList[index]);
+
+    // Pass the data via router state
+    router.push('/cart', {
+      // state: { selectedProducts, selectedQuantities },
+    });
+  }
+
   return (
     <div>
       <div className="min-h-screen">
@@ -113,7 +125,7 @@ export default function RecipeClientSide({
                 updateCheckedList={updateCheckedList}
                 updateQuantityList={updateQuantityList}
               />
-              <CartBuyButton />
+              <CartBuyButton handleCartButtonClick={handleCartButtonClick}/>
             </div>
           </div>
           <Details recipe={productPackage.recipe} />
