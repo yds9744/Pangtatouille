@@ -17,7 +17,7 @@ services:
     image: clueeee/pangtatouille:latest
     container_name: pangtatouille-api
     ports:
-      - '${API_PORT}:8000'
+      - '8000:8000'
     networks:
       - pangtatouille-network
     depends_on:
