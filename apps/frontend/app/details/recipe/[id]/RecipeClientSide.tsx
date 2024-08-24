@@ -25,9 +25,7 @@ export default function RecipeClientSide({
   const [quantityList, setQuantityList] = useState<number[]>(
     Array(products.length).fill(1)
   );
-  const [checkedList, setCheckedList] = useState<boolean[]>(
-    Array(products.length).fill(true)
-  );
+  const [checkedList, setCheckedList] = useState<boolean[]>(products.map(product => !product.ingredient?.isSauce));
 
   useEffect(() => {
     const newTotalPrice = products.reduce((sum, product, index) => {
@@ -127,6 +125,7 @@ export default function RecipeClientSide({
                 quantityList={quantityList}
                 updateCheckedList={updateCheckedList}
                 updateQuantityList={updateQuantityList}
+                isRecipeView={true}
               />
               <CartBuyButton handleCartButtonClick={handleCartButtonClick}/>
             </div>
