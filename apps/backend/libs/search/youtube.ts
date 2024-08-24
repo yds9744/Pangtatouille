@@ -15,7 +15,7 @@ export async function searchRecipeVideo(searchQuery: string): Promise<Video[]> {
   const descriptionAvailableVideos: youtube_v3.Schema$SearchResult[] = [];
   console.log('res.data.items', JSON.stringify(res.data.items, null, 2));
   res.data.items.map((item) => {
-    if (item.snippet?.description.length > 20) {
+    if (item.snippet?.description.length > 30) {
       descriptionAvailableVideos.push(item);
     }
   });

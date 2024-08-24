@@ -2,7 +2,7 @@ export type Video = {
   videoId: string;
   url: string;
   title: string;
-  description: any;
+  description: string;
   snippet: {
     url: string;
     duration: any;
