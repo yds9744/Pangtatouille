@@ -8,10 +8,10 @@ import { MyDataSource } from '@lib/database/config/database.data-source';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { OpenAIService } from 'libs/openai/openai.service';
+import { SearchModule } from 'src/search/search.module';
 
 @Module({
   imports: [
-    SystemModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -21,6 +21,8 @@ import { OpenAIService } from 'libs/openai/openai.service';
         await new DataSource(options).initialize(),
     }),
     GlobalModule,
+    SystemModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [Logger, AppService, OpenAIService],
