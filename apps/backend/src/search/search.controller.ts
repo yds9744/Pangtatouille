@@ -6,7 +6,6 @@ import { mockSearchVideoResponse } from 'src/search/mock.response';
 import axios from 'axios';
 import { load } from 'cheerio';
 import { ProductPackage } from 'types/product-package';
-import { PRODUCT_PACKAGE_MOCK } from 'libs/const/product-package.mock';
 
 @Controller('search')
 export class SearchController {
@@ -16,15 +15,6 @@ export class SearchController {
     private readonly searchService: SearchService,
     private readonly openaiService: OpenAIService,
   ) {}
-
-  @Get('product-package/youtube/mock')
-  async searchProductPackageOnYoutubeMock(
-    @Query('query') query: string,
-  ): Promise<ProductPackage[]> {
-    // mimic 3 seconds delay
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    return PRODUCT_PACKAGE_MOCK;
-  }
 
   @Get('product-package/youtube')
   async searchProductPackageOnYoutube(
@@ -51,13 +41,6 @@ export class SearchController {
     );
 
     return recipeVideos.filter((video) => video.isRecipe);
-  }
-
-  @Get('ingredient')
-  async searchByIngredient(@Query('keyword') keyword: string) {
-    return await this.searchService.searchByIngredients(
-      PRODUCT_PACKAGE_MOCK[0].ingredients,
-    );
   }
 
   @Get()

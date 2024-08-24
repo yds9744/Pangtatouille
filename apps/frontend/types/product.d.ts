@@ -1,3 +1,5 @@
+import { Ingredient } from "./ingredient";
+
 export type Product = {
   id: number;
   name: string;
@@ -13,4 +15,5 @@ export type Product = {
   ratingTotalCnt: number | null;
   rewardCash: number | null;
   imageUrl: string;
+  ingredient?: Ingredient;
 };

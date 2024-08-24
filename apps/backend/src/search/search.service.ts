@@ -1,4 +1,5 @@
 import { Product } from '@lib/database/product/product.entity';
+import { Product as ProductType } from 'types/product';
 import { Injectable, Logger } from '@nestjs/common';
 import { OpenAIService } from 'libs/openai/openai.service';
 import { searchRecipeVideo } from 'libs/search/youtube';
@@ -63,7 +64,7 @@ export class SearchService {
     return searchResult;
   }
 
-  async searchByIngredients(ingredients: Ingredient[]): Promise<Product[]> {
+  async searchByIngredients(ingredients: Ingredient[]): Promise<ProductType[]> {
     const result = await Promise.all(
       ingredients.map(async (ingredient) => {
         const ingredientUnit = ingredient.unit.toLowerCase();
@@ -91,7 +92,7 @@ export class SearchService {
         );
 
         if (searchResult3.length > 0) {
-          return searchResult3[0];
+          return { ...searchResult3[0], ingredient };
         }
 
         const searchResult4 = searchResult2.sort((a, b) => {
@@ -101,7 +102,7 @@ export class SearchService {
           );
         });
 
-        return searchResult4[0];
+        return { ...searchResult4[0], ingredient };
       }),
     );
 
