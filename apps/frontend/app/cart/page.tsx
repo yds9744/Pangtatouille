@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Checkbox } from "@/components/ui/checkbox";
 import { Product } from "@/types/product";
 import { ChevronLeft, ChevronRight, Minus, Plus } from 'lucide-react'
+import { formatNumber } from "@/utils/formatNumber";
 
 const product : Product = {
   id: 0,
@@ -31,6 +32,8 @@ export default function Component() {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
+    console.log("quantity:", quantityList)
+    console.log("checked:", checkedList)
     const newTotal = products.reduce((sum, product, index) => {
       return sum + (checkedList[index] ? product.price * quantityList[index] : 0)
     }, 0);
@@ -43,6 +46,7 @@ export default function Component() {
         index === id ? Math.max(1, quantityList[id] + addNum) : quantity
       )
     );
+    // console.log(quantityList)
   }
 
   const updateCheckedList = (id: number) => {
@@ -51,6 +55,7 @@ export default function Component() {
         index === id ? !checked : checked
       )
     );
+    // console.log(checkedList)
   }
 
   return (
@@ -108,12 +113,45 @@ function ProductList({ quantityList, updateQuantityList, updateCheckedList }: {q
     <div>
       {products.map((product, index) => (
       <div key={product.id} className="flex items-center border-b py-4">
-        <Checkbox defaultChecked={true} className="mt-2 mr-4 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-        onCheckedChange = {(e) => updateCheckedList(product.id)}/>
+        <Checkbox
+          defaultChecked={true}
+          className="mt-2 mr-4 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+          onCheckedChange = {() => updateCheckedList(index)}/>
         <Image src={product.imageUrl} alt={product.name} width={80} height={80} className="object-cover mr-4" />
-        <div className="flex-grow">
+        <div className="flex-grow space-y-2">
+          {/* Content */}
           <span className="text-sm">{product.name}</span>
-          <p className="text-sm text-gray-500">{product.arrivalInfo}</p>
+          <p className="text-sm text-green-600">{product.arrivalInfo}</p>
+          {/* Price */}
+          <div>
+            {product.discountRate && product.basePrice && (
+              <div className="flex flex-row items-baseline text-xs space-x-1">
+                <span className="text-[11px] text-white font-bold bg-red-600 rounded px-1 py-[1px]">{product.discountRate}% 할인</span>
+                <span className="text-red-600 font-medium">와우할인가</span>
+                <span className="line-through text-gray-400">
+                  {formatNumber(product.basePrice)}
+                </span>
+              </div>
+            )}
+            <div className="flex flex-row items-center space-x-2">
+              <p className="text-xl font-bold">{product.price.toLocaleString()}원</p>
+              <Image src="https://image6.coupangcdn.com/image/badges/falcon/v1/web/rocket-fresh@2x.png" alt="로켓프레시" width={72} height={16}/>
+            </div>
+          </div>
+          <div className="flex items-center text-sm text-gray-600">
+            <span className="flex text-xs items-center border border-gray-300 rounded-full px-2 py-1">
+              최대{" "}
+              <Image
+                src="https://image6.coupangcdn.com/image/badges/cashback/web/list-cash-icon@2x.png"
+                alt=""
+                width={15}
+                height={15}
+                className="mx-1"
+              />{" "}
+              {product.rewardCash}원 적립
+            </span>
+          </div>
+          {/* Quantity */}
           <div className="flex items-center mt-2">
             <button
               onClick={() => updateQuantityList(index, -1)}
@@ -123,7 +161,7 @@ function ProductList({ quantityList, updateQuantityList, updateCheckedList }: {q
             </button>
             <span className="mx-2">{quantityList[index]}</span>
             <button
-              onClick={() => updateQuantityList(product.id, 1)}
+              onClick={() => updateQuantityList(index, 1)}
               className="border rounded p-1"
             >
               <Plus className="w-4 h-4" />
@@ -131,14 +169,7 @@ function ProductList({ quantityList, updateQuantityList, updateCheckedList }: {q
           </div>
         </div>
         <div className="text-right">
-          <p className="font-bold">{product.price.toLocaleString()}원</p>
-          {product.discountRate && (
-            <p className="text-sm text-red-500">{product.discountRate}% 할인</p>
-          )}
-          {product.rewardCash && (
-            <p className="text-sm text-gray-500">최대 {product.rewardCash}원 적립</p>
-          )}
-          <Image src="https://image6.coupangcdn.com/image/badges/falcon/v1/web/rocket-fresh@2x.png" alt="로켓프레시" width={63} height={14}/>
+          
         </div>
       </div>
       ))}
@@ -148,7 +179,7 @@ function ProductList({ quantityList, updateQuantityList, updateCheckedList }: {q
 
 function TotalPrice({total} : {total: number}) {
   return (
-    <div className="lg:w-1/3 relative">
+    <div className="w-[300px]">
     <div className="sticky top-4">
       <div className="bg-white p-6 rounded-sm border">
         <h2 className="text-xl font-bold mb-4">주문 예상 금액</h2>
