@@ -4,6 +4,8 @@ import { ProductCard } from "@/app/search/components/product-card";
 import { RecipeCard } from "@/app/search/components/recipe-card";
 import { FullRecipe } from "@/types/full-recipe";
 import { Product } from "@/types/product";
+import { Suspense } from "react";
+import { RecipeCards } from "@/app/search/components/recipe-cards";
 
 export default async function Search({
   params,
@@ -12,13 +14,7 @@ export default async function Search({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const keyword = searchParams?.keyword;
-
-  const fullRecipes: FullRecipe[] = await fetch(
-    `http://localhost:8000/search/full-recipe/youtube/mock?query=${keyword}`
-  ).then((res) => res.json());
-
-  console.log("recipeVideos", fullRecipes);
+  const keyword = searchParams?.keyword as string;
 
   return (
     <main className="min-h-screen">
@@ -41,14 +37,14 @@ export default async function Search({
           </select>
         </div>
         <div className="flex flex-col items-center">
-          <ProductList fullRecipes={fullRecipes} />
+          <ProductList keyword={keyword} />
         </div>
       </div>
     </main>
   );
 }
 
-function ProductList({ fullRecipes }: { fullRecipes: FullRecipe[] }) {
+function ProductList({ keyword }: { keyword: string }) {
   const product: Product = {
     id: 0,
     name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
@@ -70,9 +66,9 @@ function ProductList({ fullRecipes }: { fullRecipes: FullRecipe[] }) {
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {fullRecipes.map((recipe, index) => (
-        <RecipeCard fullRecipe={recipe} key={index} />
-      ))}
+      <Suspense fallback={<p>Loading feed...</p>}>
+        <RecipeCards keyword={keyword} />
+      </Suspense>
       {products.map((product) => (
         <ProductCard product={product} key={product.id} />
       ))}

@@ -17,6 +17,8 @@ export class SearchController {
   async searchFullRecipeOnYoutubeMock(
     @Query('query') query: string,
   ): Promise<FullRecipe[]> {
+    // mimic 3 seconds delay
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     return FULL_RECIPES_MOCK;
   }
 
