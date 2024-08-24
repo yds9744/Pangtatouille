@@ -18,13 +18,10 @@ export class Product extends BaseEntity {
   price: number;
 
   @Column('int')
-  amount: number;
+  quantity: number;
 
   @Column('varchar', { length: 10 })
   unit: string;
-
-  @Column('int')
-  unitPrice: number;
 
   @Column('varchar', { length: 50 })
   unitPriceText: string;
