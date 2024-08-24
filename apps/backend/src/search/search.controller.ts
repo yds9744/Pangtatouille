@@ -30,42 +30,7 @@ export class SearchController {
   async searchProductPackageOnYoutube(
     @Query('query') query: string,
   ): Promise<ProductPackage[]> {
-    const videos = await this.searchService.searchRecipeVideoOnYoutube(query);
-    const recipeVideos = (
-      await Promise.all(
-        videos.map(async (video) => {
-          const isRecipe = await this.openaiService.isRecipe(video.description);
-          return { ...video, isRecipe };
-        }),
-      )
-    ).filter((video) => video.isRecipe);
-
-    if (recipeVideos.length > 0) {
-      const productPackages = await Promise.all(
-        recipeVideos.map(async (video) => {
-          const recipeAndIngredients =
-            await this.openaiService.extractRecipeAndIngredients(
-              video.description,
-            );
-          const products = await this.searchService.searchByIngredients(
-            recipeAndIngredients.ingredients,
-          );
-          const productPackage: ProductPackage = {
-            id: 1,
-            video,
-            products,
-            ...recipeAndIngredients,
-          };
-          return productPackage;
-        }),
-      );
-      this.logger.log(
-        `productPackages: ${JSON.stringify(productPackages, null, 2)}`,
-      );
-      return productPackages;
-    }
-
-    return [];
+    return await this.searchService.getProductPackage(query);
   }
 
   @Get('recipe/youtube/mock')

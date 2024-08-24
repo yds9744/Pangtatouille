@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductPackage } from "@/types/product-package";
 import { formatNumber } from "@/utils/formatNumber";
+import YouTubeLogo from "@/app/search/components/youtube-logo";
 
 export function RecipeCard({
   productPackage,
@@ -23,17 +24,25 @@ export function RecipeCard({
   const averageDiscountRate = totalDiscountRate / products.length;
 
   return (
-    <a href={`/details/recipe//${productPackage.id}`}>
-      <div className={cn("m-2 bg-card text-card-foreground")}>
+    <a
+      href={`/details/recipe//${productPackage.id}`}
+      // className="rounded-lg shadow-lg shadow-red-500/30"
+    >
+      <div className={cn("m-2 bg-card text-card-foreground rounded-lg")}>
         <CardContent className="p-0 w-[220px] h-[430px]">
-          <div className="overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
-            <Image
-              src={productPackage.video.snippet.thumbnails.high.url}
-              alt=""
-              width={230}
-              height={230}
-              className="object-cover w-full h-full"
-            />
+          <div className="relative overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
+            <div className="absolute -left-10 -top-10 mb-2 h-[300px] w-[300px]">
+              <Image
+                src={productPackage.video.snippet.thumbnails.high.url}
+                alt=""
+                width={productPackage.video.snippet.thumbnails.high.width}
+                height={productPackage.video.snippet.thumbnails.high.height}
+                className="object-cover w-full h-full"
+              />
+            </div>
+            <div className="absolute left-2 top-2">
+              <YouTubeLogo />
+            </div>
           </div>
           <span className="text-sm mt-2">
             {productPackage.video.title.slice(0, 30)}
