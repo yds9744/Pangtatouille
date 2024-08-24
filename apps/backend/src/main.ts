@@ -37,9 +37,8 @@ async function bootstrap() {
 
   const apiVersion = '1';
   const config = new DocumentBuilder()
-    .setTitle('Pang API')
+    .setTitle('Pangtatouille API')
     .setVersion(apiVersion)
-    .addServer('http://localhost:8000')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
