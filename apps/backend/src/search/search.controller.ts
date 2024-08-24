@@ -6,9 +6,9 @@ import { Video } from 'types/video';
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
-  @Get('youtube')
-  searchYoutube(@Query('query') query: string): Promise<Video[]> {
-    return this.searchService.searchYoutube(query);
+  @Get('recipe/youtube')
+  searchRecipeOnYoutube(@Query('query') query: string): Promise<Video[]> {
+    return this.searchService.searchRecipeVideoOnYoutube(query);
   }
 
   @Get()

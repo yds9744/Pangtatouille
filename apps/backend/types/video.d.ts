@@ -1,11 +1,8 @@
 export type Video = {
-  id: {
-    videoId: any;
-  };
+  videoId: string;
   url: string;
   title: string;
   description: any;
-  duration_raw: any;
   snippet: {
     url: string;
     duration: any;
