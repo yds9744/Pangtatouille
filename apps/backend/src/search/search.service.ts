@@ -92,9 +92,11 @@ export class SearchService {
         );
 
         if (searchResult3.length > 0) {
+          searchResult3.sort((a, b) => a.price - b.price);
           return { ...searchResult3[0], ingredient };
         }
 
+        searchResult2.sort((a, b) => a.price - b.price);
         const searchResult4 = searchResult2.sort((a, b) => {
           return (
             Math.abs(a.amount * a.quantity - ingredient.amount) -
