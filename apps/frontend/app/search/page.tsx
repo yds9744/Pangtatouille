@@ -44,19 +44,18 @@ export default async function Search() {
 
 function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
   const product: Product = {
-    Id: 0,
-    Name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
-    DiscountRate: 21,
-    BasePrice: 9900,
-    Price: 7730,
-    Amount: 1,
-    Unit: "팩",
-    UnitPrice: 25.77,
-    UnitPriceText: "(100g당 2,577원)",
-    ArrivalInfo: "내일(토) 새벽 도착 보장",
-    RatingTotalCnt: 3058,
-    RewardCash: 77,
-    ImageUrl:
+    id: 0,
+    name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
+    discountRate: 21,
+    basePrice: 9900,
+    price: 7730,
+    amount: 1,
+    unit: "팩",
+    unitPriceText: "(100g당 2,577원)",
+    arrivalInfo: "내일(토) 새벽 도착 보장",
+    ratingTotalCnt: 3058,
+    rewardCash: 77,
+    imageUrl:
       "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/1200073317916374-985075ca-74a7-45f5-b956-fd65088e99a7.jpg",
   };
   const products: Product[] = Array(20).fill(product);
@@ -67,7 +66,7 @@ function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
         <RecipeCard recipeVieo={video} key={video.videoId} />
       ))}
       {products.map((product) => (
-        <ProductCard product={product} key={product.Id} />
+        <ProductCard product={product} key={product.id} />
       ))}
     </div>
   );
