@@ -1,16 +1,13 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
-import { OpenAIService } from '../../libs/openai/openai.service';
+import { Video } from 'types/video';
 
 @Controller('search')
 export class SearchController {
-  constructor(
-    private readonly systemService: SearchService,
-    private readonly openaiService: OpenAIService,
-  ) {}
+  constructor(private readonly searchService: SearchService) {}
 
   @Get('youtube')
-  search(@Query('query') query: string): Promise<string> {
-    return this.systemService.searchYoutube(query);
+  search(@Query('query') query: string): Promise<Video[]> {
+    return this.searchService.searchYoutube(query);
   }
 }
