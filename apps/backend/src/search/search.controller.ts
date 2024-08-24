@@ -65,7 +65,7 @@ export class SearchController {
     return await this.searchService.search(keyword);
   }
 
-  @Get('recipe/10000recipe')
+  @Get('product-package/10000recipe')
   async searchRecipeOn10000Recipe(@Query('keyword') keyword: string) {
     // keyword를 받으면
     // url을 파싱한다.
