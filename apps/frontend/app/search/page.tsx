@@ -1,9 +1,9 @@
 import { ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import { ProductCard } from "@/app/search/components/product-card";
-import { Product } from "@/types/product";
 import { RecipeCard } from "@/app/search/components/recipe-card";
 import { FullRecipe } from "@/types/full-recipe";
+import { Product } from "@/types/product";
 
 export default async function Search({
   params,
