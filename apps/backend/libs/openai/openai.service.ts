@@ -77,4 +77,29 @@ export class OpenAIService {
 
     return ingredients;
   }
+
+  async isRecipe(text: string): Promise<boolean> {
+    this.logger.log(`Checking if text is a recipe... ${text}`);
+    const IsRecipe = z.object({
+      isRecipe: z.boolean(),
+    });
+    const completion = await this.openai.beta.chat.completions.parse({
+      // model: 'gpt-4o-2024-08-06',
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'Check if the text contains recipe. The recipe should contain steps and ingredients so that people can follow the recipe.',
+        },
+        {
+          role: 'user',
+          content: text,
+        },
+      ],
+      response_format: zodResponseFormat(IsRecipe, 'isRecipe'),
+    });
+
+    return completion.choices[0].message.parsed.isRecipe;
+  }
 }
