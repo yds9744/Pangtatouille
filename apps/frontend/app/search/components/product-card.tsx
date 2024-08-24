@@ -7,7 +7,7 @@ import { Product } from "@/types/product";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <a href="/products" key={product.name}>
+    <a href="/details/product" key={product.name}>
       <div className={cn("m-2 bg-card text-card-foreground")}>
         <CardContent className="p-0 w-[220px]">
           <div className="overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
