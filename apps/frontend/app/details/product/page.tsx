@@ -5,13 +5,10 @@ import Details from '../components/Details'
 import Options from '../components/Options'
 import Prices from '../components/Prices'
 import ReviewList from '../components/ReviewList'
+import ShareButton from '../components/ShareButton'
 import { Product } from "@/types/product";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
 
 export default function DetailProduct() {
-
   const product : Product = {
     id: 0,
     name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
@@ -49,16 +46,12 @@ export default function DetailProduct() {
                   <h1 className="text-lg font-bold mb-1">{product.name}</h1>
                   <RatingSummary ratingTotalCnt={product.ratingTotalCnt}/>
                 </div>
-                <CartBuyButton/>
+                <ShareButton/>
               </div>
               <hr/>
               <Prices dcRate={product.discountRate} basePrice={product.basePrice} price={product.price} unitPrice={product.unitPriceText} arrivalInfo={product.arrivalInfo}/>
               <Options/>
-              <div className="flex items-center gap-2 mb-4">
-                <Input type="number" value={1} min={1} className="w-20" />
-                <Button variant="outline" className="flex-grow border-blue-600 text-blue-600">장바구니 담기</Button>
-                <Button className="flex-grow bg-blue-600 text-white font-bold hover:bg-blue-700">바로구매 &gt;</Button>
-              </div>
+              <CartBuyButton/>
 
             </div>
           </div>

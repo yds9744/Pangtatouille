@@ -44,7 +44,7 @@ export default function ReviewList() {
               {[...Array(10)].map((_, i) => (
                 <img
                   key={i}
-                  src={"placeholder.svg"}
+                  src={"/placeholder.svg"}
                   alt={`Review ${i + 1}`}
                   className="w-24 h-24 object-cover rounded-md"
                 />
