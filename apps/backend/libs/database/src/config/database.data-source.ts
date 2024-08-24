@@ -2,14 +2,13 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ConfigService } from '@nestjs/config';
+import { entities } from '@lib/database/database.module';
 
 @Injectable()
 export class MyDataSource implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
-    console.log(`Connected to ${this.configService.get('DATABASE_HOST')}`);
-
     return {
       name: 'default',
       type: 'postgres',
@@ -23,7 +22,7 @@ export class MyDataSource implements TypeOrmOptionsFactory {
         this.configService.get('NODE_ENV') === 'production' ? ['error'] : true,
       synchronize: false,
       subscribers: [],
-      entities: [],
+      entities: [...entities],
     };
   }
 }
