@@ -4,6 +4,7 @@ import { Product } from './product';
 import { Video } from './video';
 
 export type FullRecipe = {
+  id: number;
   ingredients: Ingredient[];
   recipe: Recipe;
   products: Product[];

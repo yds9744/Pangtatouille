@@ -3,6 +3,7 @@ import { FullRecipe } from 'types/full-recipe';
 
 export const FULL_RECIPES_MOCK: FullRecipe[] = [
   {
+    id: 1,
     ingredients: [
       {
         name: '쌀떡',
