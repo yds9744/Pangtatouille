@@ -75,7 +75,7 @@ importers:
         specifier: ^1.25.1
         version: 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions':
-        specifier: ^1.25.1
+        specifier: ^1.26.0
         version: 1.26.0
       '@opentelemetry/winston-transport':
         specifier: ^0.5.0
