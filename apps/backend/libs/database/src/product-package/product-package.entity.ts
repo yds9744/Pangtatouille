@@ -18,4 +18,7 @@ export class ProductPackage extends BaseEntity {
 
   @Column('json')
   video: any;
+
+  @Column('json')
+  blog: any;
 }
