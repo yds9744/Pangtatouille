@@ -8,7 +8,9 @@ import { Recipe } from 'types/recipe';
 export class AppService {
   constructor(private readonly openAIService: OpenAIService) {}
 
-  async getFullRecipe(description: string): Promise<FullRecipe> {
+  async getFullRecipe(
+    description: string,
+  ): Promise<Pick<FullRecipe, 'ingredients' | 'recipe'>> {
     return await this.openAIService.extractRecipeAndIngredients(description);
   }
 

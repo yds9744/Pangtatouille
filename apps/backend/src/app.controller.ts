@@ -11,7 +11,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post('full-recipe')
-  async getFullRecipe(@Body() body: GetIngredientsDto): Promise<FullRecipe> {
+  async getFullRecipe(
+    @Body() body: GetIngredientsDto,
+  ): Promise<Pick<FullRecipe, 'ingredients' | 'recipe'>> {
     this.logger.log('Getting full recipe...');
     body.description = GetIngredientsDto.mockKo().description;
     return await this.appService.getFullRecipe(body.description);
