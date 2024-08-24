@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Query } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { Video } from 'types/video';
 import { OpenAIService } from 'libs/openai/openai.service';
@@ -8,6 +8,8 @@ import { PRODUCT_PACKAGE_MOCK } from 'libs/const/product-package.mock';
 
 @Controller('search')
 export class SearchController {
+  protected readonly logger = new Logger(this.constructor.name);
+
   constructor(
     private readonly searchService: SearchService,
     private readonly openaiService: OpenAIService,
@@ -54,6 +56,9 @@ export class SearchController {
           };
           return productPackage;
         }),
+      );
+      this.logger.log(
+        `productPackages: ${JSON.stringify(productPackages, null, 2)}`,
       );
       return productPackages;
     }
