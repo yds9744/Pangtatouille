@@ -6,11 +6,17 @@ import { Product } from "@/types/product";
 import { RecipeCard } from "@/app/search/components/recipe-card";
 import { FullRecipe } from "@/types/full-recipe";
 
-export default async function Search() {
-  const keyword = "새우";
+export default async function Search({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const query = searchParams?.query;
 
   const fullRecipes: FullRecipe[] = await fetch(
-    `http://localhost:8000/search/full-recipe/youtube/mock?query=${"새우"}`
+    `http://localhost:8000/search/full-recipe/youtube/mock?query=${query}`
   ).then((res) => res.json());
 
   console.log("recipeVideos", fullRecipes);
@@ -23,12 +29,12 @@ export default async function Search() {
           <span className="flex items-center text-sm">
             전체
             <ChevronRight className="w-4 h-4 mx-1" />
-            {keyword}
+            {query}
           </span>
         </div>
         <div className="flex flex-row items-center justify-between px-60 py-4">
           <div>
-            <span className="font-bold">{keyword}</span>
+            <span className="font-bold">{query}</span>
             <span>에 대한 검색결과</span>
           </div>
           <select className="border rounded text-sm p-2">
