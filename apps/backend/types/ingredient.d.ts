@@ -2,5 +2,6 @@ export type Ingredient = {
   name: string;
   amount: number;
   unit: string;
-  optional: boolean;
+  isSauce: boolean;
+  optional?: boolean;
 };

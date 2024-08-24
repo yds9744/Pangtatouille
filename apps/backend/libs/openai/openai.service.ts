@@ -27,7 +27,8 @@ export class OpenAIService {
           name: z.string(),
           amount: z.number(),
           unit: z.string(),
-          optional: z.boolean().optional(), // If optional is boolean and can be undefined
+          isSauce: z.boolean(),
+          optional: z.boolean().optional(),
         }),
       ),
       recipe: z.object({
@@ -35,7 +36,7 @@ export class OpenAIService {
           z.object({
             step: z.number(),
             description: z.string(),
-            optional: z.boolean().optional(), // If optional is boolean and can be undefined
+            optional: z.boolean().optional(),
           }),
         ),
       }),
@@ -47,8 +48,8 @@ export class OpenAIService {
       messages: [
         {
           role: 'system',
-          content:
-            'Extract the recipe and ingredients information. The result should be written in Korean.',
+          content: `Extract the recipe and ingredients information. 
+            The result should be written in Korean.`,
         },
         {
           role: 'user',
