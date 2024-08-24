@@ -1,3 +1,9 @@
+type Thumbnail = {
+  height: number;
+  url: string;
+  width: number;
+};
+
 export type Video = {
   videoId: string;
   url: string;
@@ -8,12 +14,12 @@ export type Video = {
     duration: any;
     publishedAt: any;
     thumbnails: {
-      id: any;
-      url: any;
-      default: any;
-      high: any;
-      height: any;
-      width: any;
+      id: string;
+      url: string;
+      default: Thumbnail;
+      high: Thumbnail;
+      height: number;
+      width: number;
     };
     title: string;
   };
