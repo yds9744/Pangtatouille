@@ -4,15 +4,16 @@ import { Video } from "@/types/video";
 import { ProductCard } from "@/app/search/components/product-card";
 import { Product } from "@/types/product";
 import { RecipeCard } from "@/app/search/components/recipe-card";
+import { FullRecipe } from "@/types/full-recipe";
 
 export default async function Search() {
   const keyword = "새우";
 
-  const recipeVideos: Video[] = await fetch(
-    `http://localhost:8000/search/recipe/youtube/mock?query=${"새우볶음밥"}`
+  const fullRecipes: FullRecipe[] = await fetch(
+    `http://localhost:8000/search/full-recipe/youtube/mock?query=${"새우"}`
   ).then((res) => res.json());
 
-  console.log("recipeVideos", recipeVideos);
+  console.log("recipeVideos", fullRecipes);
 
   return (
     <main className="min-h-screen">
@@ -35,14 +36,14 @@ export default async function Search() {
           </select>
         </div>
         <div className="flex flex-col items-center">
-          <ProductList recipeVideos={recipeVideos} />
+          <ProductList fullRecipes={fullRecipes} />
         </div>
       </div>
     </main>
   );
 }
 
-function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
+function ProductList({ fullRecipes }: { fullRecipes: FullRecipe[] }) {
   const product: Product = {
     id: 0,
     name: "흰다리 새우살 (냉동), 300g(26~30size), 1팩",
@@ -64,8 +65,8 @@ function ProductList({ recipeVideos }: { recipeVideos: Video[] }) {
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {recipeVideos.map((video) => (
-        <RecipeCard recipeVieo={video} key={video.videoId} />
+      {fullRecipes.map((recipe, index) => (
+        <RecipeCard fullRecipe={recipe} key={index} />
       ))}
       {products.map((product) => (
         <ProductCard product={product} key={product.id} />
