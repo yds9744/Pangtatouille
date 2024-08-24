@@ -47,7 +47,8 @@ export class OpenAIService {
       messages: [
         {
           role: 'system',
-          content: 'Extract the recipe and ingredients information.',
+          content:
+            'Extract the recipe and ingredients information. The result should be written in Korean.',
         },
         {
           role: 'user',
@@ -80,7 +81,11 @@ export class OpenAIService {
       // model: 'gpt-4o-2024-08-06',
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'Extract the recipe information.' },
+        {
+          role: 'system',
+          content:
+            'Extract the recipe information. The result should be written in Korean.',
+        },
         {
           role: 'user',
           content: text,
@@ -110,7 +115,11 @@ export class OpenAIService {
       // model: 'gpt-4o-2024-08-06',
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'Extract the ingredients information.' },
+        {
+          role: 'system',
+          content:
+            'Extract the ingredients information. The result should be written in Korean.',
+        },
         {
           role: 'user',
           content: text,
