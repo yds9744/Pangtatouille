@@ -49,6 +49,7 @@ export class OpenAIService {
         {
           role: 'system',
           content: `Extract the recipe and ingredients information. 
+            If the ingredient is a salt or sugar, it should be marked as a sauce.
             The result should be written in Korean.`,
         },
         {
