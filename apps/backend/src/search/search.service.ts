@@ -21,29 +21,33 @@ export class SearchService {
   async searchByIngredients(ingredients: Ingredient[]): Promise<Product[]> {
     return await Promise.all(
       ingredients.map(async (ingredient) => {
+        const ingredientUnit = ingredient.unit.toLowerCase();
+
         const searchResult1 = await Product.searchBy({
           name: ingredient.name,
         });
 
         const searchResult2 = searchResult1.filter(
-          (product) => product.amountUnit === ingredient.unit,
+          (product) => product.amountUnit === ingredientUnit,
         );
 
         const searchResult3 = searchResult2.filter(
           (product) => ingredient.amount === product.amount * product.quantity,
         );
 
-        return searchResult3[0];
-        // if (searchResult3.length > 0) {
-        //   return searchResult3;
-        // }
+        if (searchResult3.length > 0) {
+          return searchResult3[0];
+        }
 
-        // searchResult2.reduce((prev, curr) => {
-        //   return (Math.abs(curr.amount - ingredient.amount) < Math.abs(prev.amount - ingredient.amount) ? curr : prev);
-        // })
+        const searchResult4 = searchResult2.sort((a, b) => {
+          return (
+            Math.abs(a.amount * a.quantity - ingredient.amount) -
+            Math.abs(b.amount * b.quantity - ingredient.amount)
+          );
+        });
+
+        return searchResult4[0];
       }),
     );
-    // const searchResult = await Product.searchByIngredients(ingredients);
-    // return searchResult;
   }
 }
