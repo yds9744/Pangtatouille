@@ -4,6 +4,7 @@ import OpenAI from 'openai';
 import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import { Ingredient } from 'types/ingredient';
+import { Recipe } from 'types/recipe';
 
 @Injectable()
 export class OpenAIService {
@@ -14,6 +15,35 @@ export class OpenAIService {
     this.openai = new OpenAI({
       apiKey: configService.getOrThrow('OPENAI_API_KEY'),
     });
+  }
+
+  async extractRecipe(text: string): Promise<Recipe> {
+    this.logger.log(`Extracting recipe from text... ${text}`);
+    const RecipeObj = z.object({
+      steps: z.array(
+        z.object({
+          step: z.number(),
+          description: z.string(),
+          optional: z.boolean().optional(), // If optional is boolean and can be undefined
+        }),
+      ),
+    });
+
+    const completion = await this.openai.beta.chat.completions.parse({
+      // model: 'gpt-4o-2024-08-06',
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'Extract the recipe information.' },
+        {
+          role: 'user',
+          content: text,
+        },
+      ],
+      response_format: zodResponseFormat(RecipeObj, 'recipe'),
+    });
+
+    const recipe = completion.choices[0].message.parsed as Recipe;
+    return recipe;
   }
 
   async extractIngredients(text: string): Promise<Ingredient[]> {
