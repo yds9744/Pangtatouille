@@ -1,4 +1,4 @@
-export const EXAMPLE_YOUTUBE_DESCRIPTION = `K-spaghetti aglio e olio (1 serving)
+export const EXAMPLE_YOUTUBE_DESCRIPTION_EN = `K-spaghetti aglio e olio (1 serving)
 
 [Ingredients]
 
@@ -42,3 +42,40 @@ some Parmesan cheese powder
 8. Plate the spaghetti and garnish with some chives.
 9. Finally, sprinkle some Parmesan cheese powder.
    Tip: Add grated Grana Padano cheese for extra flavor.`;
+
+export const EXAMPLE_YOUTUBE_DESCRIPTION_KO = `
+떡볶이
+
+[재료]
+
+*떡볶이
+
+쌀떡 4컵(400g)
+밀가루떡 4컵(400g)
+사각어묵 4장(160g)
+양배추 2컵(160g)
+대파 3컵(240g)
+물 1L
+삶은달걀 3개
+
+*양념장
+
+고추장 1/3컵(80g)
+진간장 1/3컵(50g)
+고운고춧가루 1/3컵(30g)
+굵은고춧가루 1/3컵(20g)
+황설탕 1/3컵(70g)
+MSG 1/2큰술(5g)
+
+
+[만드는 법]
+
+대파는 어슷 썰거나 반으로 갈라 길게 썰어 준비한다.
+양배추, 어묵은 먹기 좋은 크기로 썰어 준비한다.
+냄비에 물, 진간장, 황설탕, 고추장, 굵은고춧가루, 고운고춧가루, 대파, 양배추를 넣어 끓인다.
+떡볶이떡은 흐르는 물에 가볍게 세척한다.
+육수가 끓으면 삶은달걀, 떡을 넣고 함께 끓여준다.
+기호에 맞게 MSG를 넣는다.
+떡을 넣고 육수가 끓어오르면 어묵을 넣어준다.
+양념장이 걸쭉하게 졸아들 때까지 끓여 완성한다.
+`;

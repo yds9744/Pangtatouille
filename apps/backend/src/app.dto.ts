@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { EXAMPLE_YOUTUBE_DESCRIPTION } from 'libs/openai/consts';
+import {
+  EXAMPLE_YOUTUBE_DESCRIPTION_EN,
+  EXAMPLE_YOUTUBE_DESCRIPTION_KO,
+} from 'libs/openai/consts';
 
 export class GetIngredientsDto {
   @ApiProperty({
@@ -8,9 +11,15 @@ export class GetIngredientsDto {
   })
   description: string;
 
-  static mock(): GetIngredientsDto {
+  static mockEn(): GetIngredientsDto {
     return {
-      description: EXAMPLE_YOUTUBE_DESCRIPTION,
+      description: EXAMPLE_YOUTUBE_DESCRIPTION_EN,
+    };
+  }
+
+  static mockKo(): GetIngredientsDto {
+    return {
+      description: EXAMPLE_YOUTUBE_DESCRIPTION_KO,
     };
   }
 }
