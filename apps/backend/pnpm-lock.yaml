@@ -23,6 +23,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^9.0.0
         version: 9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@9.4.3)
+      '@nestjs/swagger':
+        specifier: ^7.4.0
+        version: 7.4.0(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@9.4.3)(reflect-metadata@0.1.14)(rxjs@7.8.1))(reflect-metadata@0.1.14)
       '@nestjs/typeorm':
         specifier: ^10.0.2
         version: 10.0.2(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@9.4.3)(reflect-metadata@0.1.14)(rxjs@7.8.1))(reflect-metadata@0.1.14)(rxjs@7.8.1)(typeorm@0.3.20(pg@8.12.0)(ts-node@10.9.2(@types/node@18.15.11)(typescript@4.9.5)))
@@ -82,7 +85,7 @@ importers:
         version: 1.9.7(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(winston@3.14.2)
       openai:
         specifier: ^4.56.0
-        version: 4.56.0
+        version: 4.56.0(zod@3.23.8)
       pg:
         specifier: ^8.12.0
         version: 8.12.0
@@ -101,6 +104,12 @@ importers:
       winston:
         specifier: ^3.14.2
         version: 3.14.2
+      youtube-search-api:
+        specifier: ^1.2.2
+        version: 1.2.2
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@nestjs/cli':
         specifier: ^9.0.0
@@ -523,6 +532,9 @@ packages:
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
     engines: {node: '>=8'}
 
+  '@microsoft/tsdoc@0.15.0':
+    resolution: {integrity: sha512-HZpPoABogPvjeJOdzCOSJsXeL/SMCBgBZMVC3X3d7YYp2gf31MfxhUoYUNwf1ERPJOnQc0wkFn9trqI6ZEdZuA==}
+
   '@nestjs/cli@9.5.0':
     resolution: {integrity: sha512-Z7q+3vNsQSG2d2r2Hl/OOj5EpfjVx3OfnJ9+KuAsOdw1sKLm7+Zc6KbhMFTd/eIvfx82ww3Nk72xdmfPYCulWA==}
     engines: {node: '>= 12.9.0'}
@@ -590,6 +602,23 @@ packages:
     resolution: {integrity: sha512-wHpNJDPzM6XtZUOB3gW0J6mkFCSJilzCM3XrHI1o0C8vZmFE1snbmkIXNyoi1eV0Nxh1BMymcgz5vIMJgQtTqw==}
     peerDependencies:
       typescript: '>=4.3.5'
+
+  '@nestjs/swagger@7.4.0':
+    resolution: {integrity: sha512-dCiwKkRxcR7dZs5jtrGspBAe/nqJd1AYzOBTzw9iCdbq3BGrLpwokelk6lFZPe4twpTsPQqzNKBwKzVbI6AR/g==}
+    peerDependencies:
+      '@fastify/static': ^6.0.0 || ^7.0.0
+      '@nestjs/common': ^9.0.0 || ^10.0.0
+      '@nestjs/core': ^9.0.0 || ^10.0.0
+      class-transformer: '*'
+      class-validator: '*'
+      reflect-metadata: ^0.1.12 || ^0.2.0
+    peerDependenciesMeta:
+      '@fastify/static':
+        optional: true
+      class-transformer:
+        optional: true
+      class-validator:
+        optional: true
 
   '@nestjs/testing@9.4.3':
     resolution: {integrity: sha512-LDT8Ai2eKnTzvnPaJwWOK03qTaFap5uHHsJCv6dL0uKWk6hyF9jms8DjyVaGsaujCaXDG8izl1mDEER0OmxaZA==}
@@ -1488,6 +1517,9 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
+  axios@0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+
   babel-jest@29.7.0:
     resolution: {integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2068,6 +2100,15 @@ packages:
 
   fn.name@1.1.0:
     resolution: {integrity: sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==}
+
+  follow-redirects@1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   foreground-child@3.3.0:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
@@ -3325,6 +3366,9 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  swagger-ui-dist@5.17.14:
+    resolution: {integrity: sha512-CVbSfaLpstV65OnSjbXfVd6Sta3q3F7Cj/yYuvHMp1P90LztOLs6PfUnKEVAeiIVQt9u2SaPwv0LiH/OyMjHRw==}
+
   symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
     engines: {node: '>=0.10'}
@@ -3715,6 +3759,12 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  youtube-search-api@1.2.2:
+    resolution: {integrity: sha512-zvC+3pDS5Cclv+n+EFunaHzTMAAgt88x5Cth5KpT1xL5Pic30U5oSN2HwFL7rofT8ffDrkitAmBK5UOo9JzjlA==}
+
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
 
@@ -4229,6 +4279,8 @@ snapshots:
 
   '@lukeed/csprng@1.1.0': {}
 
+  '@microsoft/tsdoc@0.15.0': {}
+
   '@nestjs/cli@9.5.0':
     dependencies:
       '@angular-devkit/core': 16.0.1(chokidar@3.5.3)
@@ -4317,6 +4369,18 @@ snapshots:
       typescript: 4.9.5
     transitivePeerDependencies:
       - chokidar
+
+  '@nestjs/swagger@7.4.0(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@9.4.3)(reflect-metadata@0.1.14)(rxjs@7.8.1))(reflect-metadata@0.1.14)':
+    dependencies:
+      '@microsoft/tsdoc': 0.15.0
+      '@nestjs/common': 9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@9.4.3)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+      '@nestjs/mapped-types': 2.0.5(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(reflect-metadata@0.1.14)
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      path-to-regexp: 3.2.0
+      reflect-metadata: 0.1.14
+      swagger-ui-dist: 5.17.14
 
   '@nestjs/testing@9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@9.4.3)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/platform-express@9.4.3(@nestjs/common@9.4.3(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@9.4.3))':
     dependencies:
@@ -5458,6 +5522,12 @@ snapshots:
 
   asynckit@0.4.0: {}
 
+  axios@0.21.4:
+    dependencies:
+      follow-redirects: 1.15.6
+    transitivePeerDependencies:
+      - debug
+
   babel-jest@29.7.0(@babel/core@7.25.2):
     dependencies:
       '@babel/core': 7.25.2
@@ -6143,6 +6213,8 @@ snapshots:
   flatted@3.3.1: {}
 
   fn.name@1.1.0: {}
+
+  follow-redirects@1.15.6: {}
 
   foreground-child@3.3.0:
     dependencies:
@@ -7068,7 +7140,7 @@ snapshots:
     dependencies:
       mimic-fn: 2.1.0
 
-  openai@4.56.0:
+  openai@4.56.0(zod@3.23.8):
     dependencies:
       '@types/node': 18.15.11
       '@types/node-fetch': 2.6.11
@@ -7077,6 +7149,8 @@ snapshots:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
+    optionalDependencies:
+      zod: 3.23.8
     transitivePeerDependencies:
       - encoding
 
@@ -7591,6 +7665,8 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
+  swagger-ui-dist@5.17.14: {}
+
   symbol-observable@4.0.0: {}
 
   tapable@2.2.1: {}
@@ -7940,3 +8016,11 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  youtube-search-api@1.2.2:
+    dependencies:
+      axios: 0.21.4
+    transitivePeerDependencies:
+      - debug
+
+  zod@3.23.8: {}

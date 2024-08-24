@@ -6,6 +6,7 @@ import createLogger from './logger';
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 process.on('SIGTERM', () => {
   otelSDK
@@ -33,6 +34,17 @@ async function bootstrap() {
       'Authorization',
     ],
   });
+
+  const apiVersion = '1';
+  const config = new DocumentBuilder()
+    .setTitle('Pang API')
+    .setVersion(apiVersion)
+    .addServer('http://localhost:8000')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup(`api/v${apiVersion}`, app, document);
+
   await app.listen(8000);
 }
 bootstrap();
