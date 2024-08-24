@@ -118,10 +118,16 @@ export class SearchController {
             amount = ea.substring(0, end + 1);
             unit = ea.substring(end + 1);
           }
+          if (amount.indexOf('/') != -1) {
+            const splitedAmount = amount.split('/');
+            const amountInt =
+              parseInt(splitedAmount[0]) / parseInt(splitedAmount[1]);
+            amount = amountInt.toString();
+          }
           ingredients[index] = {
             name: ingre,
             amount: amount,
-            unit: ea,
+            unit: unit,
           };
         });
 
@@ -149,6 +155,6 @@ export class SearchController {
         return data;
       }),
     );
-    console.log(finals);
+    return finals;
   }
 }
