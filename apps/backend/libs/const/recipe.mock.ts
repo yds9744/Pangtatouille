@@ -55,7 +55,7 @@ export const FULL_RECIPES_MOCK: FullRecipe[] = [
       {
         name: '진간장',
         amount: 50,
-        unit: 'g',
+        unit: 'L',
         optional: false,
       },
       {
