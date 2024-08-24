@@ -32,4 +32,4 @@ for dirpath, _, filenames in os.walk(directory):
                             new_row = row
                             if amount is not None:
                                 if quantity is not None:
-                                    writer.writerow(row + [amount, amount_unit, quantity, quantity_unit])
+                                    writer.writerow(row + [amount, amount_unit.lower(), quantity, quantity_unit.lower()])
