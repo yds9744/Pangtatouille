@@ -6,6 +6,7 @@ import { mockSearchVideoResponse } from 'src/search/mock.response';
 import axios from 'axios';
 import { load } from 'cheerio';
 import { ProductPackage } from 'types/product-package';
+import { Recipe } from 'types/recipe';
 
 @Controller('search')
 export class SearchController {
@@ -75,7 +76,7 @@ export class SearchController {
         const title = $2('.view2_summary.st3').children('h3').text();
         const ingredients = [];
         const recipes = [];
-        const steps = [];
+        const steps: Recipe['steps'] = [];
         const ingreList = $2('#divConfirmedMaterialArea')
           .children('ul')
           .children('li');
@@ -128,12 +129,14 @@ export class SearchController {
         const products = await this.searchService.searchByIngredients(
           ingredients,
         );
-        const data = {
-          url,
-          imageUrl: img_url,
-          title: title,
+        const data: ProductPackage = {
+          blog: {
+            url,
+            imageUrl: img_url,
+            title: title,
+          },
           ingredients: ingredients,
-          recipe: steps,
+          recipe: { steps },
           products,
         };
         return data;
