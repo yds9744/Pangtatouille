@@ -1,6 +1,7 @@
 import { Product } from '@lib/database/product/product.entity';
 import { Injectable, Logger } from '@nestjs/common';
 import { searchRecipeVideo } from 'libs/search/youtube';
+import { Ingredient } from 'types/ingredient';
 import { Video } from 'types/video';
 
 @Injectable()
@@ -15,5 +16,34 @@ export class SearchService {
   async search(keyword: string): Promise<Product[]> {
     const searchResult = await Product.searchBy({ name: keyword });
     return searchResult;
+  }
+
+  async searchByIngredients(ingredients: Ingredient[]): Promise<Product[]> {
+    return await Promise.all(
+      ingredients.map(async (ingredient) => {
+        const searchResult1 = await Product.searchBy({
+          name: ingredient.name,
+        });
+
+        const searchResult2 = searchResult1.filter(
+          (product) => product.amountUnit === ingredient.unit,
+        );
+
+        const searchResult3 = searchResult2.filter(
+          (product) => ingredient.amount === product.amount * product.quantity,
+        );
+
+        return searchResult3[0];
+        // if (searchResult3.length > 0) {
+        //   return searchResult3;
+        // }
+
+        // searchResult2.reduce((prev, curr) => {
+        //   return (Math.abs(curr.amount - ingredient.amount) < Math.abs(prev.amount - ingredient.amount) ? curr : prev);
+        // })
+      }),
+    );
+    // const searchResult = await Product.searchByIngredients(ingredients);
+    // return searchResult;
   }
 }

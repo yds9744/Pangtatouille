@@ -3,7 +3,6 @@ import { SearchService } from './search.service';
 import { Video } from 'types/video';
 import { OpenAIService } from 'libs/openai/openai.service';
 import { mockSearchVideoResponse } from 'src/search/mock.response';
-import { FULL_RECIPE_MOCK } from 'libs/const/recipe.mock';
 import { FullRecipe } from 'types/full-recipe';
 import { FULL_RECIPES_MOCK } from 'libs/const/recipe.mock';
 
@@ -44,7 +43,7 @@ export class SearchController {
   @Get('ingredient')
   async searchByIngredient(@Query('keyword') keyword: string) {
     return await this.searchService.searchByIngredients(
-      FULL_RECIPE_MOCK.ingredients,
+      FULL_RECIPES_MOCK[0].ingredients,
     );
   }
 
