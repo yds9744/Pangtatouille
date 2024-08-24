@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { Video } from "@/types/video";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,7 @@ export function RecipeCard({ recipeVieo }: { recipeVieo: Video }) {
                   className="w-4 h-4 fill-yellow-400 stroke-yellow-400"
                 />
               ))}
-              <span className="ml-1 text-sm text-gray-600">({1000})</span>
+              <span className="ml-1 text-sm text-gray-600">(1,000)</span>
             </div>
           </div>
         </CardContent>

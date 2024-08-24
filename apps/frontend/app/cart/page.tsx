@@ -6,7 +6,7 @@ import { ChevronRight, Minus, Plus } from 'lucide-react'
 type Product = {
   id: number
   name: string
-  price: number
+  Price: number
   image: string
   quantity: number
   deliveryType: '로켓배송' | '로켓와우' | '판매자배송' | '로켓직구'
@@ -20,7 +20,7 @@ export default function Component() {
     {
       id: 1,
       name: 'MORN 현미 월남쌈, 200g, 1개',
-      price: 2250,
+      Price: 2250,
       image: 'placeholder.svg',
       quantity: 1,
       deliveryType: '로켓와우',
@@ -31,7 +31,7 @@ export default function Component() {
     {
       id: 2,
       name: '바겐슈타이거 에델 실리콘 키친툴 스패츌라, 라이트, 1개',
-      price: 8180,
+      Price: 8180,
       image: 'placeholder.svg',
       quantity: 1,
       deliveryType: '로켓배송',
@@ -41,7 +41,7 @@ export default function Component() {
     {
       id: 3,
       name: '토니모리 인키 라이브러리 프로폴리스 앰플, 30ml, 1개',
-      price: 14220,
+      Price: 14220,
       image: 'placeholder.svg',
       quantity: 1,
       deliveryType: '로켓와우',
@@ -55,7 +55,7 @@ export default function Component() {
     {
       id: 4,
       name: 'Doctors Best 비타민 D3 5000 IU 베지 소프트젤, 180정, 1개',
-      price: 19700,
+      Price: 19700,
       image: 'placeholder.svg',
       quantity: 1,
       deliveryType: '로켓직구',
@@ -64,7 +64,7 @@ export default function Component() {
     {
       id: 5,
       name: '스포츠리서치 비타민 D3 125mcg 소프트젤, 360정, 1개',
-      price: 24570,
+      Price: 24570,
       image: 'placeholder.svg',
       quantity: 1,
       deliveryType: '로켓직구',
@@ -78,7 +78,7 @@ export default function Component() {
 
   useEffect(() => {
     const newTotal = [...rocketDeliveryProducts, ...rocketDirectProducts].reduce(
-      (sum, product) => sum + product.price * product.quantity,
+      (sum, product) => sum + product.Price * product.quantity,
       0
     )
     setTotal(newTotal)
@@ -127,7 +127,7 @@ export default function Component() {
         </div>
       </div>
       <div className="text-right">
-        <p className="font-bold">{product.price.toLocaleString()}원</p>
+        <p className="font-bold">{product.Price.toLocaleString()}원</p>
         {product.discount && (
           <p className="text-sm text-red-500">{product.discount}% 할인</p>
         )}
