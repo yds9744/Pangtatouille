@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import Header from '@/components/Header'
-import RatingSummary from '@/components/RatingSummary'
-import CartBuyButton from '../../components/CartBuyButton'
-import Details from '../../components/Details'
-import Prices from '../../components/Prices'
-import ReviewList from '../../components/ReviewList'
-import ProductList from '@/app/cart/components/ProductList'
+import React, { useState, useEffect } from "react";
+import Header from "@/components/Header";
+import RatingSummary from "@/components/RatingSummary";
+import CartBuyButton from "../../components/CartBuyButton";
+import Details from "../../components/Details";
+import Prices from "../../components/Prices";
+import ReviewList from "../../components/ReviewList";
+import ProductList from "@/app/cart/components/ProductList";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProductPackage } from "@/types/product-package";
@@ -18,7 +18,9 @@ export default async function RecipePage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const productPackage: ProductPackage[] = await fetch(
-    `http://localhost:8000/search/full-recipe/youtube/mock?query=${"hi"}`
+    `${
+      process.env.SERVER_BASE_URL
+    }/search/full-recipe/youtube/mock?query=${"hi"}`
   ).then((res) => res.json()); // TODO: replace this with http://localhost:8000/full-recipe/${id}
 
   const recipeId = params.id;
@@ -37,10 +39,12 @@ export default async function RecipePage({
     (acc, product) => acc + (product.basePrice ?? product.price),
     0
   );
-  const averageDiscountRate = parseInt((totalDiscountRate / products.length).toFixed(0));
+  const averageDiscountRate = parseInt(
+    (totalDiscountRate / products.length).toFixed(0)
+  );
 
-  const quantityList = Array(products.length).fill(1)
-  const checkedList = Array(products.length).fill(true)
+  const quantityList = Array(products.length).fill(1);
+  const checkedList = Array(products.length).fill(true);
   // const [quantityList, setQuantityList] = useState<number[]>(Array(products.length).fill(1))
   // const [checkedList, setCheckedList] = useState<boolean[]>(Array(products.length).fill(true))
 
@@ -63,30 +67,34 @@ export default async function RecipePage({
   // }, [quantityList, checkedList])
 
   const updateQuantityList = (id: number, addNum: number) => {
-  //   setQuantityList((prevQuantity) =>
-  //     prevQuantity.map((quantity, index) =>
-  //       index === id ? Math.max(1, quantityList[id] + addNum) : quantity
-  //     )
-  //   );
-  }
+    //   setQuantityList((prevQuantity) =>
+    //     prevQuantity.map((quantity, index) =>
+    //       index === id ? Math.max(1, quantityList[id] + addNum) : quantity
+    //     )
+    //   );
+  };
 
   const updateCheckedList = (id: number) => {
-  //   setCheckedList((prevCheckedList) =>
-  //     prevCheckedList.map((checked, index) =>
-  //       index === id ? !checked : checked
-  //     )
-  //   );
-  }
+    //   setCheckedList((prevCheckedList) =>
+    //     prevCheckedList.map((checked, index) =>
+    //       index === id ? !checked : checked
+    //     )
+    //   );
+  };
 
   return (
     <div>
       <div className="min-h-screen">
-        <Header/>
+        <Header />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Product Image */}
             <div className="w-full lg:w-1/2">
-              <img src={recipe.video.snippet.thumbnails.high.url} alt="" className="w-full h-auto"/>
+              <img
+                src={recipe.video.snippet.thumbnails.high.url}
+                alt=""
+                className="w-full h-auto"
+              />
             </div>
 
             {/* Product Details */}
@@ -94,26 +102,40 @@ export default async function RecipePage({
               <div className="flex flex-row justify-between">
                 {/* text area */}
                 <div>
-                  <h1 className="text-lg font-bold mb-1">{recipe.video.title}</h1>
-                  <RatingSummary ratingTotalCnt={3065}/>
+                  <h1 className="text-lg font-bold mb-1">
+                    {recipe.video.title}
+                  </h1>
+                  <RatingSummary ratingTotalCnt={3065} />
                 </div>
-                <CartBuyButton/>
+                <CartBuyButton />
               </div>
-              <hr/>
-              <Prices dcRate={averageDiscountRate} basePrice={totalBasePrice} price={totalPrice} unitPrice={null} arrivalInfo={null}/>
+              <hr />
+              <Prices
+                dcRate={averageDiscountRate}
+                basePrice={totalBasePrice}
+                price={totalPrice}
+                unitPrice={null}
+                arrivalInfo={null}
+              />
               <ProductList products={products} quantityList={quantityList} />
               <div className="flex items-center gap-2 mb-4">
                 <Input type="number" value={1} min={1} className="w-20" />
-                <Button variant="outline" className="flex-grow border-blue-600 text-blue-600">장바구니 담기</Button>
-                <Button className="flex-grow bg-blue-600 text-white font-bold hover:bg-blue-700">바로구매 &gt;</Button>
+                <Button
+                  variant="outline"
+                  className="flex-grow border-blue-600 text-blue-600"
+                >
+                  장바구니 담기
+                </Button>
+                <Button className="flex-grow bg-blue-600 text-white font-bold hover:bg-blue-700">
+                  바로구매 &gt;
+                </Button>
               </div>
-
             </div>
           </div>
-          <Details/>
+          <Details />
         </main>
       </div>
-      <ReviewList/>
+      <ReviewList />
     </div>
   );
 }
