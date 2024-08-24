@@ -13,6 +13,17 @@ def split_amount_unit(input_string):
     else:
         return None, None
 
+# kg, l to g, ml
+# 1kg = 1000g, 1l = 1000ml
+def convert_unit(amount, unit):
+    unit = unit.lower()
+    if unit == 'kg':
+        return amount * 1000, 'g'
+    elif unit == 'l':
+        return amount * 1000, 'ml'
+    else:
+        return amount, unit
+
 exception_list = ['kg', 'l']
 directory = 'data/input'
 for dirpath, _, filenames in os.walk(directory):
@@ -31,6 +42,8 @@ for dirpath, _, filenames in os.walk(directory):
                             quantity_unit = split_text[2]
                             quantity, quantity_unit = split_amount_unit(quantity_unit)
                             new_row = row
-                            if amount is not None and amount_unit not in exception_list:
-                                if quantity is not None and quantity_unit not in exception_list:
-                                    writer.writerow(row + [amount, amount_unit.lower(), quantity, quantity_unit.lower()])
+                            if amount is not None:
+                                if quantity is not None:
+                                    amount, amount_unit = convert_unit(amount, amount_unit)
+                                    quantity, quantity_unit = convert_unit(quantity, quantity_unit)
+                                    writer.writerow(row + [amount, amount_unit, quantity, quantity_unit])
