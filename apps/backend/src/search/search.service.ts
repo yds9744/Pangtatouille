@@ -41,12 +41,12 @@ export class SearchService {
           const products = await this.searchByIngredients(
             recipeAndIngredients.ingredients,
           );
-          const productPackage = await this.productPackageService.createOne(
-            video,
-            recipeAndIngredients.ingredients,
-            recipeAndIngredients.recipe,
+          const productPackage = await this.productPackageService.createOne({
+            ingredients: recipeAndIngredients.ingredients,
+            recipe: recipeAndIngredients.recipe,
             products,
-          );
+            video,
+          });
           return productPackage;
         }),
       );

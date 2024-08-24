@@ -7,6 +7,7 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import { ProductPackage } from 'types/product-package';
 import { Recipe } from 'types/recipe';
+import { ProductPackageService } from 'src/product-package/product-package.service';
 
 @Controller('search')
 export class SearchController {
@@ -15,6 +16,7 @@ export class SearchController {
   constructor(
     private readonly searchService: SearchService,
     private readonly openaiService: OpenAIService,
+    private readonly productPackageService: ProductPackageService,
   ) {}
 
   @Get('product-package/youtube')
@@ -75,7 +77,6 @@ export class SearchController {
         const img_url = $2('#main_thumbs').attr()['src'];
         const title = $2('.view2_summary.st3').children('h3').text();
         const ingredients = [];
-        const recipes = [];
         const steps: Recipe['steps'] = [];
         const ingreList = $2('#divConfirmedMaterialArea')
           .children('ul')
@@ -129,17 +130,19 @@ export class SearchController {
         const products = await this.searchService.searchByIngredients(
           ingredients,
         );
-        const data: ProductPackage = {
-          blog: {
-            url,
-            imageUrl: img_url,
-            title: title,
-          },
-          ingredients: ingredients,
-          recipe: { steps },
-          products,
+        const recipe = { steps };
+        const blog = {
+          url,
+          imageUrl: img_url,
+          title,
         };
-        return data;
+        const productPackage = await this.productPackageService.createOne({
+          ingredients,
+          recipe,
+          products,
+          blog,
+        });
+        return productPackage;
       }),
     );
     return finals;

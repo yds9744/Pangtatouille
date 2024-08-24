@@ -12,17 +12,29 @@ export class ProductPackageService {
     return productPackage;
   }
 
-  async createOne(
-    video: Video,
-    ingredients: Ingredient[],
-    recipe: Recipe,
-    products: Product[],
-  ) {
+  async createOne({
+    ingredients,
+    recipe,
+    products,
+    video,
+    blog,
+  }: {
+    ingredients: Ingredient[];
+    recipe: Recipe;
+    products: Product[];
+    video?: Video;
+    blog?: {
+      url: string;
+      imageUrl: string;
+      title: string;
+    };
+  }) {
     const newProductPackage = new ProductPackage();
     newProductPackage.ingredients = ingredients;
     newProductPackage.recipe = recipe;
     newProductPackage.products = products;
     newProductPackage.video = video;
+    newProductPackage.blog = blog;
     await newProductPackage.save();
     return newProductPackage;
   }
