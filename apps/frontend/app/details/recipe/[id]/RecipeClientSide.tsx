@@ -6,51 +6,68 @@ import CartBuyButton from "../../components/CartBuyButton";
 import Details from "../../components/Details";
 import Prices from "../../components/Prices";
 import ReviewList from "../../components/ReviewList";
-import ShareButton from '../../components/ShareButton'
+import ShareButton from "../../components/ShareButton";
 import ProductList from "@/app/cart/components/ProductList";
 import { ProductPackage } from "@/types/product-package";
 
-export default function RecipeClientSide({ productPackage }: { productPackage: ProductPackage }) {
+export default function RecipeClientSide({
+  productPackage,
+}: {
+  productPackage: ProductPackage;
+}) {
   const products = productPackage.products;
 
-  const [totalPrice, setTotalPrice] = useState(0)
-  const [totalBasePrice, setTotalBasePrice] = useState(0)
-  const [averageDiscountRate, setAverageDiscountRate] = useState(0)
-  const [quantityList, setQuantityList] = useState<number[]>(Array(products.length).fill(1))
-  const [checkedList, setCheckedList] = useState<boolean[]>(Array(products.length).fill(true))
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalBasePrice, setTotalBasePrice] = useState(0);
+  const [averageDiscountRate, setAverageDiscountRate] = useState(0);
+  const [quantityList, setQuantityList] = useState<number[]>(
+    Array(products.length).fill(1)
+  );
+  const [checkedList, setCheckedList] = useState<boolean[]>(
+    Array(products.length).fill(true)
+  );
 
   useEffect(() => {
     const newTotalPrice = products.reduce((sum, product, index) => {
-      return sum + (checkedList[index] ? product.price * quantityList[index] : 0)
+      return (
+        sum + (checkedList[index] ? product.price * quantityList[index] : 0)
+      );
     }, 0);
-    setTotalPrice(newTotalPrice)
+    setTotalPrice(newTotalPrice);
 
     const newTotalBasePrice = products.reduce((sum, product, index) => {
-      const price = product.basePrice ? product.basePrice : product.price
-      return sum + (checkedList[index] ? price * quantityList[index] : 0)
+      const price = product.basePrice ? product.basePrice : product.price;
+      return sum + (checkedList[index] ? price * quantityList[index] : 0);
     }, 0);
-    setTotalBasePrice(newTotalBasePrice)
+    setTotalBasePrice(newTotalBasePrice);
 
     const newTotalDiscountRate = products.reduce((sum, product, index) => {
-      return sum + (product.discountRate && checkedList[index] ? product.discountRate * quantityList[index] : 0)
+      return (
+        sum +
+        (product.discountRate && checkedList[index]
+          ? product.discountRate * quantityList[index]
+          : 0)
+      );
     }, 0);
-    setAverageDiscountRate(parseInt((newTotalDiscountRate / products.length).toFixed(0)))
-  }, [quantityList, checkedList])
+    setAverageDiscountRate(
+      parseInt((newTotalDiscountRate / products.length).toFixed(0))
+    );
+  }, [quantityList, checkedList]);
 
   const updateQuantityList = (id: number, addNum: number) => {
-      setQuantityList((prevQuantity) =>
-        prevQuantity.map((quantity, index) =>
-          index === id ? Math.max(1, quantityList[id] + addNum) : quantity
-        )
-      );
+    setQuantityList((prevQuantity) =>
+      prevQuantity.map((quantity, index) =>
+        index === id ? Math.max(1, quantityList[id] + addNum) : quantity
+      )
+    );
   };
 
   const updateCheckedList = (id: number) => {
-      setCheckedList((prevCheckedList) =>
-        prevCheckedList.map((checked, index) =>
-          index === id ? !checked : checked
-        )
-      );
+    setCheckedList((prevCheckedList) =>
+      prevCheckedList.map((checked, index) =>
+        index === id ? !checked : checked
+      )
+    );
   };
 
   return (
@@ -62,7 +79,7 @@ export default function RecipeClientSide({ productPackage }: { productPackage: P
             {/* Product Image */}
             <div className="w-full lg:w-1/2">
               <img
-                src={productPackage.video.snippet.thumbnails.high.url}
+                src={productPackage.video?.snippet.thumbnails.high.url}
                 alt=""
                 className="w-full h-auto"
               />
@@ -74,7 +91,7 @@ export default function RecipeClientSide({ productPackage }: { productPackage: P
                 {/* text area */}
                 <div>
                   <h1 className="text-lg font-bold mb-1">
-                    {productPackage.video.title}
+                    {productPackage.video?.title}
                   </h1>
                   <RatingSummary ratingTotalCnt={3065} />
                 </div>
@@ -88,7 +105,12 @@ export default function RecipeClientSide({ productPackage }: { productPackage: P
                 unitPrice={null}
                 arrivalInfo={null}
               />
-              <ProductList products={products} quantityList={quantityList} updateCheckedList={updateCheckedList} updateQuantityList={updateQuantityList}/>
+              <ProductList
+                products={products}
+                quantityList={quantityList}
+                updateCheckedList={updateCheckedList}
+                updateQuantityList={updateQuantityList}
+              />
               <CartBuyButton />
             </div>
           </div>

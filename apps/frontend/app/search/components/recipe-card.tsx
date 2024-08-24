@@ -33,10 +33,10 @@ export function RecipeCard({
           <div className="relative overflow-hidden mb-2 rounded-lg h-[220px] w-[220px]">
             <div className="absolute -left-10 -top-10 mb-2 h-[300px] w-[300px]">
               <Image
-                src={productPackage.video.snippet.thumbnails.high.url}
+                src={productPackage.video?.snippet.thumbnails.high.url ?? ""}
                 alt=""
-                width={productPackage.video.snippet.thumbnails.high.width}
-                height={productPackage.video.snippet.thumbnails.high.height}
+                width={productPackage.video?.snippet.thumbnails.high.width}
+                height={productPackage.video?.snippet.thumbnails.high.height}
                 className="object-cover w-full h-full"
               />
             </div>
@@ -45,11 +45,11 @@ export function RecipeCard({
             </div>
           </div>
           <span className="text-sm mt-2">
-            {productPackage.video.title.slice(0, 30)}
+            {productPackage.video?.title.slice(0, 30)}
           </span>
           <div className="h-fit">
             <span className={cn("text-xs text-gray-500 overflow-hidden")}>
-              {productPackage.video.description.slice(0, 50) + "..."}
+              {productPackage.video?.description.slice(0, 50) + "..."}
             </span>
           </div>
           <div className="my-2">

@@ -8,5 +8,10 @@ export type ProductPackage = {
   ingredients: Ingredient[];
   recipe: Recipe;
   products: Product[];
-  video: Video;
+  video?: Video;
+  blog?: {
+    url: string;
+    imageUrl: img_url;
+    title: title;
+  };
 };
