@@ -16,7 +16,7 @@ export default function ProductList({
 }: {
   products: Product[];
   quantityList: number[];
-  checkedList?: boolean[];
+  checkedList: boolean[];
   updateQuantityList?: (id: number, addNum: number) => void;
   updateCheckedList?: (id: number) => void;
   isRecipeView?: boolean;
@@ -28,7 +28,7 @@ export default function ProductList({
   const renderProduct = (product: Product, index: number) => (
     <div key={product.id} className="flex items-center border-b last:border-b-0 py-4">
       <Checkbox
-        defaultChecked={(checkedList ? checkedList[index] : true)}
+        defaultChecked={checkedList[index]}
         className="mt-2 mr-4 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
         onCheckedChange={() => updateCheckedList?.(index)}
       />

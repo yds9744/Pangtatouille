@@ -12,7 +12,7 @@ export function RecipeCard({
 }: {
   productPackage: ProductPackage;
 }) {
-  const products = productPackage.products;
+  const products = productPackage.products.filter(product => !product.ingredient?.isSauce);
   const totalPrice = products.reduce((acc, product) => acc + product.price, 0);
   const totalDiscountRate = products.reduce(
     (acc, product) => acc + (product.discountRate ?? 0),
