@@ -17,11 +17,11 @@ import { ProductPackageModule } from './product-package/product-package.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    // TypeOrmModule.forRootAsync({
-    //   useClass: MyDataSource,
-    //   dataSourceFactory: async (options: DataSourceOptions) =>
-    //     await new DataSource(options).initialize(),
-    // }),
+    TypeOrmModule.forRootAsync({
+      useClass: MyDataSource,
+      dataSourceFactory: async (options: DataSourceOptions) =>
+        await new DataSource(options).initialize(),
+    }),
     GlobalModule,
     SystemModule,
     SearchModule,
