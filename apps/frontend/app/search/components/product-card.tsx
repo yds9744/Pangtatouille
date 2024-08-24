@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { Product } from "@/types/product";
 import { CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils/formatNumber";
+import { Product } from "@/types/product";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
@@ -57,7 +57,7 @@ export function ProductCard({ product }: { product: Product }) {
                 />
               ))}
               <span className="ml-1 text-sm text-gray-600">
-                ({formatNumber(product.ratingTotalCnt)})
+                ({formatNumber(product.ratingTotalCnt ?? 0)})
               </span>
             </div>
             <div className="flex items-center text-sm text-gray-600">
