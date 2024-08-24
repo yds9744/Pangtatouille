@@ -9,7 +9,7 @@ export class SearchController {
     private readonly openaiService: OpenAIService,
   ) {}
 
-  @Get()
+  @Get('youtube')
   search(@Query('query') query: string): Promise<string> {
     return this.systemService.searchYoutube(query);
   }
