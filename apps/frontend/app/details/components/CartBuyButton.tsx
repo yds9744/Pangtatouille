@@ -1,15 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Share} from "lucide-react";
+import { Input } from "@/components/ui/input";
 
-export default function CartBuyButton() {
+export default function CartBuyButton(){
     return (
-        <div className="flex justify-end gap-2">
-            <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-gray-300">
-            <Heart className="h-5 w-5 text-gray-500" />
-            </Button>
-            <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-gray-300">
-            <Share className="h-5 w-5 text-gray-500" />
-            </Button>
-      </div>
+        <div className="flex items-center gap-2 mb-4">
+            {/* <Input type="number" value={1} min={1} className="w-20" /> */}
+            <Button variant="outline" className="flex-grow border-blue-600 text-blue-600">장바구니 담기</Button>
+            <Button className="flex-grow bg-blue-600 text-white font-bold hover:bg-blue-700">바로구매 &gt;</Button>
+        </div>
     )
 }

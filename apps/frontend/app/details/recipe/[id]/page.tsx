@@ -5,9 +5,8 @@ import CartBuyButton from "../../components/CartBuyButton";
 import Details from "../../components/Details";
 import Prices from "../../components/Prices";
 import ReviewList from "../../components/ReviewList";
+import ShareButton from '../../components/ShareButton'
 import ProductList from "@/app/cart/components/ProductList";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ProductPackage } from "@/types/product-package";
 
 export default async function RecipePage({
@@ -17,11 +16,11 @@ export default async function RecipePage({
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const recipeId = params.id;
   const productPackage: ProductPackage = await fetch(
-    `${process.env.SERVER_BASE_URL}/product-package/${params.id}`
+    `${process.env.SERVER_BASE_URL}/product-package/${recipeId}`
   ).then((res) => res.json());
 
-  const recipeId = params.id;
   const products = productPackage.products;
   // const [totalPrice, setTotalPrice] = useState(0)
   // const [totalDiscountRate, setTotalDiscountRate] = useState(0)
@@ -104,7 +103,7 @@ export default async function RecipePage({
                   </h1>
                   <RatingSummary ratingTotalCnt={3065} />
                 </div>
-                <CartBuyButton />
+                <ShareButton />
               </div>
               <hr />
               <Prices
@@ -115,18 +114,7 @@ export default async function RecipePage({
                 arrivalInfo={null}
               />
               <ProductList products={products} quantityList={quantityList} />
-              <div className="flex items-center gap-2 mb-4">
-                <Input type="number" value={1} min={1} className="w-20" />
-                <Button
-                  variant="outline"
-                  className="flex-grow border-blue-600 text-blue-600"
-                >
-                  장바구니 담기
-                </Button>
-                <Button className="flex-grow bg-blue-600 text-white font-bold hover:bg-blue-700">
-                  바로구매 &gt;
-                </Button>
-              </div>
+              <CartBuyButton />
             </div>
           </div>
           <Details recipe={productPackage.recipe} />
