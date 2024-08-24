@@ -2,8 +2,8 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Ingredient } from 'types/ingredient';
 import { Product } from 'types/product';
 
-@Entity('recommend_product')
-export class RecommendProduct extends BaseEntity {
+@Entity('product_package')
+export class ProductPackage extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -10,7 +10,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { OpenAIService } from 'libs/openai/openai.service';
 import { SearchModule } from 'src/search/search.module';
 import { ProductModule } from './product/product.module';
-import { RecommendProductModule } from './recommend-product/recommend-product.module';
+import { ProductPackageModule } from './product-package/product-package.module';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { RecommendProductModule } from './recommend-product/recommend-product.mo
     SystemModule,
     SearchModule,
     ProductModule,
-    RecommendProductModule,
+    ProductPackageModule,
   ],
   controllers: [AppController],
   providers: [Logger, AppService, OpenAIService],
