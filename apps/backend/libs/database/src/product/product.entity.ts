@@ -53,7 +53,10 @@ export class Product extends BaseEntity {
         name,
       })
       .getMany();
-    if (searchedResult.length > 0) {
+    if (
+      searchedResult.length > 0 &&
+      searchedResult[0].category !== '설탕 소금 고춧가루'
+    ) {
       return searchedResult;
     }
 
