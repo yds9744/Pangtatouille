@@ -17,6 +17,9 @@ export class Product extends BaseEntity {
   @Column('int', { nullable: false })
   price: number;
 
+  @Column('varchar', { length: 20, nullable: false })
+  category: string;
+
   @Column('int', { nullable: false })
   amount: number;
 
@@ -45,6 +48,15 @@ export class Product extends BaseEntity {
   imageUrl: string;
 
   static async searchBy({ name }: { name: string }) {
+    const searchedResult = await this.createQueryBuilder('product')
+      .where(`to_tsvector('english', category) @@ plainto_tsquery(:name)`, {
+        name,
+      })
+      .getMany();
+    if (searchedResult.length > 0) {
+      return searchedResult;
+    }
+
     return this.createQueryBuilder('product')
       .where(`to_tsvector('english', name) @@ plainto_tsquery(:name)`, {
         name,
