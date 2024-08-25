@@ -17,64 +17,69 @@ export default function RecipeClientSide({
   productPackage: ProductPackage;
 }) {
   const router = useRouter();
-  const sauceProducts = productPackage.products.filter(product => product.ingredient?.isSauce);
-  const nonSauceProducts = productPackage.products.filter(product => !product.ingredient?.isSauce);
+  const orgProducts = productPackage.products
+  const sauceProducts = orgProducts.filter(product => product.ingredient?.isSauce);
+  const nonSauceProducts = orgProducts.filter(product => !product.ingredient?.isSauce);
   const products = [...nonSauceProducts, ...sauceProducts];
+
+  console.log(nonSauceProducts);
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalBasePrice, setTotalBasePrice] = useState(0);
   const [averageDiscountRate, setAverageDiscountRate] = useState(0);
-  const [quantityList, setQuantityList] = useState<number[]>(
-    Array(products.length).fill(1)
+
+  const [quantityMap, setQuantityMap] = useState<{ [key: number]: number }>(
+    products.reduce((map, product) => {
+      map[product.id] = 1;
+      return map;
+    }, {} as { [key: number]: number })
   );
-  const [checkedList, setCheckedList] = useState<boolean[]>(
-    [
-    ...Array(nonSauceProducts.length).fill(true),
-    ...Array(sauceProducts.length).fill(false),
-    ]
+  const [checkedMap, setCheckedMap] = useState<{ [key: number]: boolean }>(
+    products.reduce((map, product) => {
+      map[product.id] = !product.ingredient?.isSauce;
+      return map;
+    }, {} as { [key: number]: boolean })
   );
 
   useEffect(() => {
     const newTotalPrice = products.reduce((sum, product, index) => {
       return (
-        sum + (checkedList[index] ? product.price * quantityList[index] : 0)
+        sum + (checkedMap[product.id] ? product.price * quantityMap[product.id] : 0)
       );
     }, 0);
     setTotalPrice(newTotalPrice);
 
     const newTotalBasePrice = products.reduce((sum, product, index) => {
       const price = product.basePrice ? product.basePrice : product.price;
-      return sum + (checkedList[index] ? price * quantityList[index] : 0);
+      return sum + (checkedMap[product.id] ? price * quantityMap[product.id] : 0);
     }, 0);
     setTotalBasePrice(newTotalBasePrice);
 
     const newTotalDiscountRate = products.reduce((sum, product, index) => {
       return (
         sum +
-        (product.discountRate && checkedList[index]
-          ? product.discountRate * quantityList[index]
+        (product.discountRate && checkedMap[product.id]
+          ? product.discountRate * quantityMap[product.id]
           : 0)
       );
     }, 0);
     setAverageDiscountRate(
       parseInt((newTotalDiscountRate / products.length).toFixed(0))
     );
-  }, [quantityList, checkedList]);
+  }, [quantityMap, checkedMap]);
 
-  const updateQuantityList = (id: number, addNum: number) => {
-    setQuantityList((prevQuantity) =>
-      prevQuantity.map((quantity, index) =>
-        index === id ? Math.max(1, quantityList[id] + addNum) : quantity
-      )
-    );
+  const updateQuantityMap = (id: number, addNum: number) => {
+    setQuantityMap((prevQuantityMap) => ({
+      ...prevQuantityMap,
+      [id]: Math.max(1, (prevQuantityMap[id] || 1) + addNum),
+    }));
   };
 
-  const updateCheckedList = (id: number) => {
-    setCheckedList((prevCheckedList) =>
-      prevCheckedList.map((checked, index) =>
-        index === id ? !checked : checked
-      )
-    );
+  const updateCheckedMap = (id: number) => {
+    setCheckedMap((prevCheckedMap) => ({
+      ...prevCheckedMap,
+      [id]: !prevCheckedMap[id],
+    }));
   };
 
   const thumbnailUrl =
@@ -86,8 +91,10 @@ export default function RecipeClientSide({
   const description = productPackage.video?.description ?? "";
 
   const handleCartButtonClick = () => {
-    const selectedProducts = products.filter((_, index) => checkedList[index]);
-    const selectedQuantities = quantityList.filter((_, index) => checkedList[index]);
+    const selectedProducts = products.filter((product) => checkedMap[product.id]);
+    const selectedQuantities = selectedProducts.map(
+      (product) => quantityMap[product.id]
+    );
 
     const query = new URLSearchParams({
       products: JSON.stringify(selectedProducts),
@@ -95,8 +102,7 @@ export default function RecipeClientSide({
     }).toString();
 
     router.push(`/cart?${query}`);
-  
-  }
+  };
 
   return (
     <div>
@@ -129,10 +135,10 @@ export default function RecipeClientSide({
               />
               <ProductList
                 products={products}
-                quantityList={quantityList}
-                checkedList={checkedList}
-                updateCheckedList={updateCheckedList}
-                updateQuantityList={updateQuantityList}
+                quantityMap={quantityMap}
+                checkedMap={checkedMap}
+                updateCheckedMap={updateCheckedMap}
+                updateQuantityMap={updateQuantityMap}
                 isRecipeView={true}
               />
               <CartBuyButton handleCartButtonClick={handleCartButtonClick}/>
