@@ -51,4 +51,6 @@ for dirpath, _, filenames in os.walk(directory):
                                         category = filename.replace('_', ' ')
                                         if '국내산' in category:
                                             category += ' 돼지고기'
+                                        if '페페로치노' in name:
+                                            category = '페페로치노'
                                         writer.writerow(row + [amount, amount_unit, quantity, quantity_unit, category])
