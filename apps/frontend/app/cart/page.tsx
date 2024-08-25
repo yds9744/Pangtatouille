@@ -26,8 +26,18 @@ const defaultProduct: Product = {
 
 function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [quantityList, setQuantityList] = useState<number[]>([]);
-  const [checkedList, setCheckedList] = useState<boolean[]>([]);
+  const [quantityMap, setQuantityMap] = useState<{ [key: number]: number }>(
+    products.reduce((map, product) => {
+      map[product.id] = 1;
+      return map;
+    }, {} as { [key: number]: number })
+  );
+  const [checkedMap, setCheckedMap] = useState<{ [key: number]: boolean }>(
+    products.reduce((map, product) => {
+      map[product.id] = !product.ingredient?.isSauce;
+      return map;
+    }, {} as { [key: number]: boolean })
+  );
   const [total, setTotal] = useState(0);
   const searchParams = useSearchParams();
 
@@ -48,49 +58,47 @@ function Cart() {
       // Set products and quantities
       if (parsedProducts.length) {
         setProducts(parsedProducts);
-        setQuantityList(
+        setQuantityMap(
           parsedQuantities.length
             ? parsedQuantities
             : Array(parsedProducts.length).fill(1)
         );
-        setCheckedList(Array(parsedProducts.length).fill(true));
+        setCheckedMap(Array(parsedProducts.length).fill(true));
       } else {
         setProducts(Array(20).fill(defaultProduct));
-        setQuantityList(Array(20).fill(1));
-        setCheckedList(Array(20).fill(true));
+        setQuantityMap(Array(20).fill(1));
+        setCheckedMap(Array(20).fill(true));
       }
     } catch (error) {
       console.error("Error parsing query parameters:", error);
       // Fallback to default products if there's an error
       setProducts(Array(20).fill(defaultProduct));
-      setQuantityList(Array(20).fill(1));
-      setCheckedList(Array(20).fill(true));
+      setQuantityMap(Array(20).fill(1));
+      setCheckedMap(Array(20).fill(true));
     }
   }, [searchParams]);
 
   useEffect(() => {
-    const newTotal = products.reduce((sum, product, index) => {
+    const newTotal = products.reduce((sum, product) => {
       return (
-        sum + (checkedList[index] ? product.price * quantityList[index] : 0)
+        sum + (checkedMap[product.id] ? product.price * quantityMap[product.id] : 0)
       );
     }, 0);
     setTotal(newTotal);
-  }, [products, quantityList, checkedList]);
+  }, [products, quantityMap, checkedMap]);
 
-  const updateQuantityList = (id: number, addNum: number) => {
-    setQuantityList((prevQuantity) =>
-      prevQuantity.map((quantity, index) =>
-        index === id ? Math.max(1, quantity + addNum) : quantity
-      )
-    );
+  const updateQuantityMap = (id: number, addNum: number) => {
+    setQuantityMap((prevQuantityMap) => ({
+      ...prevQuantityMap,
+      [id]: Math.max(1, (prevQuantityMap[id] || 1) + addNum),
+    }));
   };
 
-  const updateCheckedList = (id: number) => {
-    setCheckedList((prevCheckedList) =>
-      prevCheckedList.map((checked, index) =>
-        index === id ? !checked : checked
-      )
-    );
+  const updateCheckedMap = (id: number) => {
+    setCheckedMap((prevCheckedMap) => ({
+      ...prevCheckedMap,
+      [id]: !prevCheckedMap[id],
+    }));
   };
 
   return (
@@ -118,9 +126,10 @@ function Cart() {
                 </p>
                 <ProductList
                   products={products}
-                  quantityList={quantityList}
-                  updateQuantityList={updateQuantityList}
-                  updateCheckedList={updateCheckedList}
+                  quantityMap={quantityMap}
+                  checkedMap={checkedMap}
+                  updateQuantityMap={updateQuantityMap}
+                  updateCheckedMap={updateCheckedMap}
                 />
               </div>
             </div>

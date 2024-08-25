@@ -8,29 +8,28 @@ import { Minus, Plus } from "lucide-react";
 
 export default function ProductList({
   products,
-  quantityList,
-  checkedList,
-  updateQuantityList,
-  updateCheckedList,
+  quantityMap,
+  checkedMap,
+  updateQuantityMap,
+  updateCheckedMap,
   isRecipeView = false,
 }: {
   products: Product[];
-  quantityList: number[];
-  checkedList?: boolean[];
-  updateQuantityList?: (id: number, addNum: number) => void;
-  updateCheckedList?: (id: number) => void;
+  quantityMap: { [key: number]: number };
+  checkedMap?: { [key: number]: boolean };
+  updateQuantityMap?: (id: number, addNum: number) => void;
+  updateCheckedMap?: (id: number) => void;
   isRecipeView?: boolean;
 }) {
 
   const sauceProducts = products.filter(product => product.ingredient?.isSauce);
   const nonSauceProducts = products.filter(product => !product.ingredient?.isSauce);
-
-  const renderProduct = (product: Product, index: number) => (
+  const renderProduct = (product: Product) => (
     <div key={product.id} className="flex items-center border-b last:border-b-0 py-4">
       <Checkbox
-        defaultChecked={(checkedList ? checkedList[index] : true)}
+        checked={checkedMap ? checkedMap[product.id] : true}
         className="mt-2 mr-4 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-        onCheckedChange={() => updateCheckedList?.(index)}
+        onCheckedChange={() => updateCheckedMap?.(product.id)}
       />
       <Image
         src={product.imageUrl}
@@ -84,14 +83,14 @@ export default function ProductList({
         {/* Quantity */}
         <div className="flex items-center mt-2">
           <button
-            onClick={() => updateQuantityList?.(index, -1)}
+            onClick={() => updateQuantityMap?.(product.id, -1)}
             className="border rounded p-1"
           >
             <Minus className="w-4 h-4" />
           </button>
-          <span className="mx-2">{quantityList[index]}</span>
+          <span className="mx-2">{quantityMap[product.id]}</span>
           <button
-            onClick={() => updateQuantityList?.(index, 1)}
+            onClick={() => updateQuantityMap?.(product.id, 1)}
             className="border rounded p-1"
           >
             <Plus className="w-4 h-4" />
@@ -107,20 +106,20 @@ export default function ProductList({
         <>
           {nonSauceProducts.length > 0 && (
             <div className="bg-white p-6 my-6 rounded-sm border">
-              {nonSauceProducts.map((product, index) => renderProduct(product, index))}
+              {nonSauceProducts.map((product) => renderProduct(product))}
             </div>
           )}
           {sauceProducts.length > 0 && (
             <div className="bg-white p-6 my-6 rounded-sm border">
               <h2 className="text-lg font-bold">상비 재료</h2>
-              {sauceProducts.map((product, index) => renderProduct(product, index))}
+              {sauceProducts.map((product) => renderProduct(product))}
             </div>
           )}
         </>
       ) : (
         products.length > 0 && (
           <div>
-            {products.map((product, index) => renderProduct(product, index))}
+            {products.map((product) => renderProduct(product))}
           </div>
         )
       )}
